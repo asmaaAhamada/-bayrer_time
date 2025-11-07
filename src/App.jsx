@@ -12,6 +12,7 @@ import CustomTabPanel from './componenets/linkPage/Remembrances/tabs'
 import NotifyPage from './componenets/linkPage/notifecation'
 import NearestMosquePage from './componenets/linkPage/mousqPage'
 import ProfilePage from './componenets/linkPage/profile/ProfilePage'
+import WelcomePage from './componenets/welcomPage'
 export default function App({ toggleMode, mode }){
   return (
    
@@ -25,7 +26,7 @@ export default function App({ toggleMode, mode }){
 {/* //////////////token//////////////// */}
      
         <Route path="/" element={<Layout toggleMode={toggleMode} mode={mode}/>}>
-          <Route index element={<Navigate to="/Home" replace />} />
+<Route index element={<WelcomePage />} />
           <Route path="Home" element={<HelloPage />} />
           <Route path="Remembrances" element={<CustomTabPanel />} />
           <Route path="Kiss" element={<KissPage />} />

@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddLocationIcon from '@mui/icons-material/AddLocation';import DailyAzkarPage from "./victory/azkar";
-import Fav_AzkarPage from "./victory/favAzkar";
 
 export default function ProfilePage() {
   const theme = useTheme();
@@ -69,17 +68,12 @@ export default function ProfilePage() {
          
         </Grid>
 
-        <Grid item xs={12} md={6}>
-         
-           
-            <Fav_AzkarPage color={theme.palette.secondary.main} />
-         
-        </Grid>
+      
       </Grid>
 
     
 
-      {/* 👤 بيانات المستخدم */}
+      {/*  بيانات المستخدم */}
       <Card
         sx={{
           width: "100%",
