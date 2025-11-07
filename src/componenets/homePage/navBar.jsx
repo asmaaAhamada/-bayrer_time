@@ -1,7 +1,13 @@
 
 import { FaMosque } from "react-icons/fa6";
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';import SettingsIcon from '@mui/icons-material/Settings';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
+import AlarmOnIcon from '@mui/icons-material/AlarmOn';
+import AutoModeIcon from '@mui/icons-material/AutoMode';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
@@ -23,13 +29,14 @@ import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 const navItems = [
-      { label: 'الإعدادات', path: '/Setting' },
-  ,  {label: 'التنبيهات', path: '/notify'},
+      { label: 'الإعدادات', path: '/Setting' ,icone:<SettingsIcon/>},
+  ,  {label: 'التنبيهات', path: '/notify',icone:<NotificationsActiveIcon/>},
 
-  { label: 'القبلة', path: '/Kiss' },
-  {label: 'مواقيتي', path: '/Home'},
-  { label: 'الاذكار', path: '/Remembrances' },
-    { label: 'المسجد الأقرب', path: '/mousq' },
+  { label: 'القبلة', path: '/Kiss' ,icone:<AutoModeIcon/>},
+  {label: 'مواقيتي', path: '/Home',icone:<AlarmOnIcon/>},
+  { label: 'الاذكار', path: '/Remembrances' ,icone:<AutoStoriesIcon/>},
+    { label: 'المسجد الأقرب', path: '/mousq',icone:<AccountBalanceIcon/> },
+    { label: ' حسابي', path: '/profile',icone:<AccountCircleIcon/> },
 
 
 ];
@@ -43,7 +50,7 @@ const theme = useTheme()
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 ,color: theme.palette.primary.contrastText}}>
+      <Typography variant="h6" sx={{ my: 2 ,color: theme.palette.text.primary}}>
         صلاتي
       </Typography>
       <Divider />
@@ -56,6 +63,7 @@ const theme = useTheme()
               sx={{ textAlign: 'center' }}
             >
               <ListItemText primary={item.label} />
+              {item.icone}
             </ListItemButton>
           </ListItem>
         ))}
@@ -97,10 +105,11 @@ const theme = useTheme()
       sx={{ fontSize: 18, fontWeight: 400, color: theme.palette.primary.contrastText }}
     >
       {item.label}
+{item.icone}
     </Button>
             ))}
           </Box>
-          <Typography variant="h6" sx={{ my: 2 ,fontSize:'32px',ml:6,color: theme.palette.primary.contrastText  }}>
+          <Typography variant="h6" sx={{ my: 2 ,fontSize:'32px',ml:6,color: theme.palette.text.main  }}>
         صلاتي
       </Typography>
        <IconButton color="inherit" onClick={toggleMode} sx={{ ml: 2 }}>

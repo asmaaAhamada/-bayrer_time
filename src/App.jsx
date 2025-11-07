@@ -11,6 +11,7 @@ import RemembranceCard from './componenets/linkPage/Remembrances/Remembrances'
 import CustomTabPanel from './componenets/linkPage/Remembrances/tabs'
 import NotifyPage from './componenets/linkPage/notifecation'
 import NearestMosquePage from './componenets/linkPage/mousqPage'
+import ProfilePage from './componenets/linkPage/profile/ProfilePage'
 export default function App({ toggleMode, mode }){
   return (
    
@@ -33,7 +34,8 @@ export default function App({ toggleMode, mode }){
                                         <Route path="mousq" element={<NearestMosquePage />} />
 
 
-          
+                                                  <Route path="profile" element={<ProfilePage />} />
+
         </Route>
      
 </Routes> 

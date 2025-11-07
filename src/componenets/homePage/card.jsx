@@ -7,7 +7,6 @@ import assar from '../../assets/images/عصر.jpg'
 import maghreb from '../../assets/images/مغرب.jpg'
 import eshaa from '../../assets/images/عشاء.jpg'
 
-// بيانات الصلاة كمثال
 const prayers = [
   { name: "الفجر", time: "05:10" , img:fager},
   { name: "الظهر", time: "12:30", img:doher },
@@ -31,7 +30,7 @@ export default function PrayerCards() {
             <Card sx={{ 
               bgcolor: theme.palette.background.paper,
               color: theme.palette.text.primary,
-              textAlign: 'center',
+              textAlign: 'center',boxShadow:`1px 1px 1px ${theme.palette.primary.main}`,
               p: 1
             }}>
               <CardMedia

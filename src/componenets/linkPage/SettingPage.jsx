@@ -9,14 +9,10 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Button,
-  Radio,
-  RadioGroup,
-  FormLabel,
 } from "@mui/material";
 
 export default function SettingPage() {
-  const theme = useTheme(); //  استخدم الـ hook بدلاً من props
+  const theme = useTheme();
   const [azanEnabled, setAzanEnabled] = React.useState(true);
   const [timeFormat, setTimeFormat] = React.useState("24");
   const [reminderTime, setReminderTime] = React.useState(5);
@@ -31,9 +27,12 @@ export default function SettingPage() {
         gap: 3,
         color: theme.palette.text.primary,
         minHeight: "100vh",
+        bgcolor: theme.palette.background.default,
       }}
     >
-      <Typography variant="h5">الإعدادات</Typography>
+      <Typography variant="h5" sx={{ color: theme.palette.primary.main }}>
+        الإعدادات
+      </Typography>
 
       {/* تشغيل/إيقاف الأذان */}
       <FormControlLabel
@@ -47,27 +46,54 @@ export default function SettingPage() {
         label="تشغيل الأذان"
       />
 
-      {/* تنسيق الوقت */}
-      <FormControl component="fieldset">
-        <FormLabel component="legend">تنسيق الوقت</FormLabel>
-        <RadioGroup
-          row
-          value={timeFormat}
-          onChange={(e) => setTimeFormat(e.target.value)}
+      {/* طريقة حساب الأوقات */}
+      <FormControl fullWidth>
+        <InputLabel sx={{ color: theme.palette.text.primary }} id="reminder-time-label">
+          طريقة حساب الأوقات
+        </InputLabel>
+        <Select
+          labelId="reminder-time-label"
+          value={reminderTime}
+          onChange={(e) => setReminderTime(e.target.value)}
+          sx={{
+            color: theme.palette.text.primary,
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: theme.palette.text.secondary,
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: theme.palette.primary.main,
+            },
+            "& .MuiSvgIcon-root": {
+              color: theme.palette.text.primary,
+            },
+          }}
         >
-          <FormControlLabel value="12" control={<Radio />} label="12 ساعة" />
-          <FormControlLabel value="24" control={<Radio />} label="24 ساعة" />
-        </RadioGroup>
+          <MenuItem value={5}>السعودية</MenuItem>
+          <MenuItem value={10}>رابطة العالم الاسلامي</MenuItem>
+        </Select>
       </FormControl>
 
       {/* وقت التذكير قبل الصلاة */}
       <FormControl fullWidth>
-        <InputLabel id="reminder-time-label">وقت التذكير قبل الصلاة</InputLabel>
+        <InputLabel sx={{ color: theme.palette.text.primary }} id="reminder-time-label2">
+          وقت التذكير قبل الصلاة
+        </InputLabel>
         <Select
-          labelId="reminder-time-label"
+          labelId="reminder-time-label2"
           value={reminderTime}
-          label="وقت التذكير قبل الصلاة"
           onChange={(e) => setReminderTime(e.target.value)}
+          sx={{
+            color: theme.palette.text.primary,
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: theme.palette.text.secondary,
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: theme.palette.primary.main,
+            },
+            "& .MuiSvgIcon-root": {
+              color: theme.palette.text.primary,
+            },
+          }}
         >
           <MenuItem value={5}>5 دقائق</MenuItem>
           <MenuItem value={10}>10 دقائق</MenuItem>
@@ -77,12 +103,25 @@ export default function SettingPage() {
 
       {/* اختيار صوت الأذان */}
       <FormControl fullWidth>
-        <InputLabel id="azan-sound-label">صوت الأذان</InputLabel>
+        <InputLabel sx={{ color: theme.palette.text.primary }} id="azan-sound-label">
+          صوت الأذان
+        </InputLabel>
         <Select
           labelId="azan-sound-label"
           value={azanSound}
-          label="صوت الأذان"
           onChange={(e) => setAzanSound(e.target.value)}
+          sx={{
+            color: theme.palette.text.primary,
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: theme.palette.text.secondary,
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: theme.palette.primary.main,
+            },
+            "& .MuiSvgIcon-root": {
+              color: theme.palette.text.primary,
+            },
+          }}
         >
           <MenuItem value="Makkah">أذان مكة</MenuItem>
           <MenuItem value="Madina">أذان المدينة</MenuItem>
@@ -92,23 +131,15 @@ export default function SettingPage() {
 
       {/* المساعدة / تعليمات */}
       <Box>
-        <Typography variant="h6">مساعدة / تعليمات</Typography>
-        <Typography variant="body2" sx={{ mt: 1 }}>
+        <Typography variant="h6" sx={{ color: theme.palette.primary.main }}>
+          مساعدة / تعليمات
+        </Typography>
+        <Typography variant="body2" sx={{ mt: 1, color: theme.palette.text.secondary }}>
           - كيفية استخدام القبلة  
           - إعداد الأذكار  
           - تشغيل الأذان
         </Typography>
       </Box>
-
-      {/* زر تسجيل الخروج */}
-      <Button
-        variant="contained"
-        color="error"
-        sx={{ mt: 3 }}
-        onClick={() => alert("تم تسجيل الخروج")}
-      >
-        تسجيل الخروج
-      </Button>
     </Box>
   );
 }

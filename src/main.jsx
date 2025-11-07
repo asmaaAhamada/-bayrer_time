@@ -15,15 +15,15 @@ function Root() {
     palette: {
       mode,
       primary: {
-        main: mode === 'light' ? '#6B5B2A' : '#4A3E1B', // لون Navbar
+        main: mode === 'light' ? '#6B5B2A' : '#442604ff', // لون Navbar
         contrastText: mode === 'light' ? '#ffffff' : '#ffffff', // لون النص على الـ Navbar
       },
       background: {
-        default: mode === 'light' ? '#ffffff' : '#996c38ff', // body background
+        default: mode === 'light' ? '#996c38ff' : '#ffffff', // body background
         paper: mode === 'light' ? '#f5f5f5' : '#744106ff',
       },
       text: {
-        primary: mode === 'light' ? '#6B5B2A' : '#ffffff',
+        primary: mode === 'light' ? '#131210ff' : '#442604ff',
         secondary: mode === 'light' ? '#4A3E1B' : '#cccccc',
       },
     },
