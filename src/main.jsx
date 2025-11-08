@@ -19,7 +19,7 @@ function Root() {
         contrastText: mode === 'light' ? '#ffffff' : '#ffffff', // لون النص على الـ Navbar
       },
       background: {
-        default: mode === 'light' ? '#996c38ff' : '#ffffff', // body background
+        default: mode === 'light' ? '#c7beb3ff' : '#ffffff', // body background
         paper: mode === 'light' ? '#f5f5f5' : '#744106ff',
       },
       text: {

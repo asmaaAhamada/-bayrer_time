@@ -29,14 +29,14 @@ import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 const navItems = [
-      { label: 'الإعدادات', path: '/Setting' ,icone:<SettingsIcon/>},
-  ,  {label: 'التنبيهات', path: '/notify',icone:<NotificationsActiveIcon/>},
+      { label: 'الإعدادات', path: '/app/Setting' ,icone:<SettingsIcon/>},
+  ,  {label: 'التنبيهات', path: '/app/notify',icone:<NotificationsActiveIcon/>},
 
-  { label: 'القبلة', path: '/Kiss' ,icone:<AutoModeIcon/>},
-  {label: 'مواقيتي', path: '/Home',icone:<AlarmOnIcon/>},
-  { label: 'الاذكار', path: '/Remembrances' ,icone:<AutoStoriesIcon/>},
-    { label: 'المسجد الأقرب', path: '/mousq',icone:<AccountBalanceIcon/> },
-    { label: ' حسابي', path: '/profile',icone:<AccountCircleIcon/> },
+  { label: 'القبلة', path: '/app/Kiss' ,icone:<AutoModeIcon/>},
+  {label: 'مواقيتي', path: '/app/Home',icone:<AlarmOnIcon/>},
+  { label: 'الاذكار', path: '/app/Remembrances' ,icone:<AutoStoriesIcon/>},
+    { label: 'المسجد الأقرب', path: '/app/mousq',icone:<AccountBalanceIcon/> },
+    { label: ' حسابي', path: '/app/profile',icone:<AccountCircleIcon/> },
 
 
 ];

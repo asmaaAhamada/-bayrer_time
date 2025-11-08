@@ -5,13 +5,29 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { Button, TextField } from '@mui/material';
+import { Button, LinearProgress, TextField } from '@mui/material';
 
 import GoogleIcon from '@mui/icons-material/Google';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login_normal, setformInfo } from '../../../Reducer/user/auth/login';
 
 
 export default function Login_page(){
+  const {email,password} =useSelector((state)=> state.login_normal)
+    const { isLoading } = useSelector((state) => state.login_normal);
+  
+  const dispatch =useDispatch()
+  const navigate = useNavigate();
+  
+  //eventHandeler
+  async function Login_Manaule() {
+      const resultAction = await dispatch(login_normal());
+      if (login_normal.fulfilled.match(resultAction)) {
+    navigate("/app");
+  } else {
+    console.log("خطأ التسجيل:", resultAction.payload);
+  }}
     return(
         <>
          
@@ -38,6 +54,10 @@ export default function Login_page(){
   
    <Box sx={{ mb:2 ,width: '100%', alignSelf: 'flex-start' }}>
     <TextField
+    type='email'
+     value={email}
+    onChange={(e) => dispatch(setformInfo({ email: e.target.value }))}
+    
       fullWidth
        sx={{
          '& label': {
@@ -67,6 +87,9 @@ export default function Login_page(){
   </Box> 
   <Box sx={{ mb:-2,width: '100%', alignSelf: 'flex-start' }}>
     <TextField
+     value={password}
+    onChange={(e) => dispatch(setformInfo({ password: e.target.value }))}
+    
       fullWidth
       sx={{
         borderRadius: '15%',
@@ -97,8 +120,22 @@ export default function Login_page(){
   
       </CardContent>
           
- <Button        sx={{ width: '80%', borderRadius: '5px',backgroundColor:'rgba(134, 96, 21, 0.51)',color:'#110f0dff' }}
->تسجيل الدخول   </Button>  
+ {isLoading ? (
+  <LinearProgress sx={{ width: '100%', height: 6, borderRadius: 2 }} />
+) : (
+  <Button
+    onClick={Login_Manaule}
+    sx={{
+      color: '#110f0dff',
+      width: '90%',
+      borderRadius: '5px',
+      backgroundColor: 'rgba(134, 96, 21, 0.51)',
+    }}
+  >
+     تسجيل الدخول
+  </Button>
+)}
+  
  <Button        sx={{color:'#110f0dff', width: '80%', borderRadius: '5px',backgroundColor:'rgba(134, 96, 21, 0.51)' ,color:'black'}}
  >  باستخدام غوغل 
  

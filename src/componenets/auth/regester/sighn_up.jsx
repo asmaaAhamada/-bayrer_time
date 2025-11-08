@@ -6,17 +6,19 @@ import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Button, TextField } from '@mui/material';
+import LinearProgress from '@mui/material/LinearProgress';
 
 import GoogleIcon from '@mui/icons-material/Google';
 import { useDispatch, useSelector } from 'react-redux';
 import { setformInfo, SighnManaul } from '../../../Reducer/user/auth/sighnNormal';
-import {  useNavigate } from 'react-router-dom';
+import {  Link, useNavigate } from 'react-router-dom';
 
 
 export default function Singhn_Up(){
   //state
   const {name,email,password,password_confirmation} =useSelector((state)=> state.sighn_normal)
   const { error } = useSelector((state) => state.sighn_normal);
+  const { isLoading } = useSelector((state) => state.sighn_normal);
 
 const dispatch =useDispatch()
 const navigate = useNavigate();
@@ -184,12 +186,28 @@ onChange={(e) => dispatch(setformInfo({ password_confirmation: e.target.value })
     />
   </Box> 
       </CardContent>
-          
- <Button   onClick={Sighn_Manaule}     sx={{ color:'#110f0dff',width: '90%', borderRadius: '5px',backgroundColor:'rgba(134, 96, 21, 0.51)' }}
- >إنشاء حساب  </Button>  
+         {isLoading ? (
+  <LinearProgress sx={{ width: '100%', height: 6, borderRadius: 2 }} />
+) : (
+  <Button
+    onClick={Sighn_Manaule}
+    sx={{
+      color: '#110f0dff',
+      width: '90%',
+      borderRadius: '5px',
+      backgroundColor: 'rgba(134, 96, 21, 0.51)',
+    }}
+  >
+    إنشاء حساب
+  </Button>
+)}
 
-     
- <Button        sx={{color:'#110f0dff', width: '90%', borderRadius: '5px',backgroundColor:'rgba(134, 96, 21, 0.51)' ,color:'black'}}
+   
+
+ <Button     
+   onClick={() => window.location.href = "http://127.0.0.1:8000/api/auth/google/redirect"}
+
+ sx={{color:'#110f0dff', width: '90%', borderRadius: '5px',backgroundColor:'rgba(134, 96, 21, 0.51)' ,color:'black'}}
  > تسجيل الدخول باستخدام غوغل 
  
  <GoogleIcon/>

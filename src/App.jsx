@@ -28,15 +28,15 @@ export default function App({ toggleMode, mode }){
       <Route element={<ProtectedRoute />}>
         <Route path="/app" element={<Layout toggleMode={toggleMode} mode={mode}/>}>
 <Route index element={<WelcomePage />} />
-          <Route path="Home" element={<HelloPage />} />
-          <Route path="Remembrances" element={<CustomTabPanel />} />
-          <Route path="Kiss" element={<KissPage />} />
-          <Route path="Setting" element={<SettingPage />} />
-                    <Route path="notify" element={<NotifyPage />} />
-                                        <Route path="mousq" element={<NearestMosquePage />} />
+          <Route path="/app/Home" element={<HelloPage />} />
+          <Route path="/app/Remembrances" element={<CustomTabPanel />} />
+          <Route path="/app/Kiss" element={<KissPage />} />
+          <Route path="/app/Setting" element={<SettingPage />} />
+                    <Route path="/app/notify" element={<NotifyPage />} />
+                                        <Route path="/app/mousq" element={<NearestMosquePage />} />
 
 
-                                                  <Route path="profile" element={<ProfilePage />} />
+                                                  <Route path="/app/profile" element={<ProfilePage />} />
 </Route>
         </Route>
      
