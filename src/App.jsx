@@ -13,6 +13,7 @@ import NotifyPage from './componenets/linkPage/notifecation'
 import NearestMosquePage from './componenets/linkPage/mousqPage'
 import ProfilePage from './componenets/linkPage/profile/ProfilePage'
 import WelcomePage from './componenets/welcomPage'
+import ProtectedRoute from './componenets/auth/protected/ProtectedRoute'
 export default function App({ toggleMode, mode }){
   return (
    
@@ -21,11 +22,11 @@ export default function App({ toggleMode, mode }){
     
      
      <Routes>
-  {/* <Route path="/" element={<Login />} />
-    <Route path="/sighn" element={<SignUp />} /> */}
+  <Route path="/" element={<Login />} />
+    <Route path="/sighn" element={<SignUp />} />
 {/* //////////////token//////////////// */}
-     
-        <Route path="/" element={<Layout toggleMode={toggleMode} mode={mode}/>}>
+      <Route element={<ProtectedRoute />}>
+        <Route path="/app" element={<Layout toggleMode={toggleMode} mode={mode}/>}>
 <Route index element={<WelcomePage />} />
           <Route path="Home" element={<HelloPage />} />
           <Route path="Remembrances" element={<CustomTabPanel />} />
@@ -36,7 +37,7 @@ export default function App({ toggleMode, mode }){
 
 
                                                   <Route path="profile" element={<ProfilePage />} />
-
+</Route>
         </Route>
      
 </Routes> 
