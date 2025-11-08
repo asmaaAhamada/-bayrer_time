@@ -1,97 +1,84 @@
+import * as React from "react";
+import {
+  Box,
+  Tabs,
+  Tab,
+  LinearProgress,
+  Alert,
+  Typography,
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import MorningRemembrances from './MorningRemembrances';
-import TravelRemembrances from './TravelRemembrances';
-import EveningRemembrances from './EveningRemembrances';
-import SleepRemembrances from './SleepRemembrances';
-import AfterMealRemembrances from './AfterMealRemembrances';
-import GeneralRemembrances from './GeneralRemembrances';
+import RemembranceCard from "./Remembrances";
+import { fetchAzkarByCategory, fetchCategories } from "../../../Reducer/payere/azkar";
 
-function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
+export default function AzkarTabs() {
+  const dispatch = useDispatch();
+  const { categories, azkar, isLoading, error } = useSelector(
+    (state) => state.remembrances
   );
-}
-
-CustomTabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
+
+  // تحميل التصنيفات عند أول تشغيل
+  React.useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  // تحميل أذكار أول تصنيف عند جلب التصنيفات
+  React.useEffect(() => {
+    if (categories.length > 0) {
+      dispatch(fetchAzkarByCategory(categories[value].id));
+    }
+  }, [categories, value, dispatch]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    dispatch(fetchAzkarByCategory(categories[newValue].id));
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider',color:'red' }}>
-        <Tabs
-  value={value}
-  onChange={handleChange}
-  aria-label="basic tabs example"
-   variant="scrollable"   // يمكن التمرير على الموبايل
+    <Box sx={{ width: "100%" }}>
+      {/* التابات */}
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        variant="scrollable"
         scrollButtons="auto"
-  sx={{
-    '& .MuiTab-root': {
-      color: 'color: theme.palette.primary.contrastText',         // لون التاب الغير مختار
-    },
-    '& .Mui-selected': {
-      color: 'color: theme.palette.primary.contrastText',         // لون التاب المختار
-    },
-    
-  }}
->
-  <Tab label="أذكار الصباح" {...a11yProps(0)} />
-  <Tab label="أذكار المساء" {...a11yProps(1)} />
-  <Tab label="أذكار النوم" {...a11yProps(2)} />
-  <Tab label="أذكار مابعد الإفطار" {...a11yProps(3)} />
-  <Tab label="أذكار السفر" {...a11yProps(4)} />
-  <Tab label="أذكار عامة" {...a11yProps(5)} />
-</Tabs>
+        aria-label="azkar tabs"
+      >
+        {categories.map((cat) => (
+          <Tab key={cat.id} label={cat.name} />
+        ))}
+      </Tabs>
 
+      {/* اللودر */}
+      {isLoading && (
+        <LinearProgress sx={{ mt: 1, height: 5, borderRadius: 2 }} />
+      )}
+
+      {/* الخطأ */}
+      {error && (
+        <Alert severity="error" sx={{ mt: 1 }}>
+          {error}
+        </Alert>
+      )}
+
+      {/* عرض الأذكار */}
+      <Box sx={{ p: 2 }}>
+        {azkar.length > 0 ? (
+          azkar.map((item) => (
+            <RemembranceCard
+              key={item.id}
+              text={item.content}
+              reward={`تكرار: ${item.repetition}`}
+            />
+          ))
+        ) : (
+          <Typography variant="body2" sx={{ textAlign: "center", mt: 2 }}>
+            لا توجد أذكار حالياً
+          </Typography>
+        )}
       </Box>
-      <CustomTabPanel value={value} index={0}>
-<MorningRemembrances />      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-       <EveningRemembrances />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-       <SleepRemembrances />
-      </CustomTabPanel>
-         <CustomTabPanel value={value} index={3}>
-       <AfterMealRemembrances />
-      </CustomTabPanel>
-         <CustomTabPanel value={value} index={4}>
-       <TravelRemembrances />
-      </CustomTabPanel>
-       <CustomTabPanel value={value} index={5}>
-       <GeneralRemembrances />
-      </CustomTabPanel>
     </Box>
   );
 }

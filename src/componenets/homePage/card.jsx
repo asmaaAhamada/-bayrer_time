@@ -6,6 +6,7 @@ import doher from '../../assets/images/ضهر.jpg'
 import assar from '../../assets/images/عصر.jpg'
 import maghreb from '../../assets/images/مغرب.jpg'
 import eshaa from '../../assets/images/عشاء.jpg'
+import { useDispatch, useSelector } from "react-redux";
 
 const prayers = [
   { name: "الفجر", time: "05:10" , img:fager},
@@ -16,6 +17,8 @@ const prayers = [
 ];
 
 export default function PrayerCards() {
+  const state =useSelector((state)=>state.get_cityReducer)
+  const dispath= useDispatch()
   const theme = useTheme();
 
   return (

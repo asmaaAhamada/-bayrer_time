@@ -1,6 +1,7 @@
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import DrawerAppBar from './navBar';
 import Cookies from "universal-cookie";
+import { useEffect } from 'react';
 
 export default function Layout({ toggleMode, mode }) {
   const [params] = useSearchParams();
