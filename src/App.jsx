@@ -23,6 +23,8 @@ export default function App({ toggleMode, mode }){
      
      <Routes>
   <Route path="/" element={<Login />} />
+    <Route path="/login" element={<Login />} />
+
     <Route path="/sighn" element={<SignUp />} />
 {/* //////////////token//////////////// */}
       <Route element={<ProtectedRoute />}>

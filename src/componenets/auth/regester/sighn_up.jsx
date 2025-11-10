@@ -5,16 +5,19 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { Button, TextField } from '@mui/material';
+import { Alert, Button, TextField } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress';
 
 import GoogleIcon from '@mui/icons-material/Google';
 import { useDispatch, useSelector } from 'react-redux';
-import { setformInfo, SighnManaul } from '../../../Reducer/user/auth/sighnNormal';
+import { clearError, resetForm, setformInfo, SighnManaul } from '../../../Reducer/user/auth/sighnNormal';
 import {  Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 export default function Singhn_Up(){
+  const user = useSelector((state) => state.sighn_normal.user);
+    console.log(user)
   //state
   const {name,email,password,password_confirmation} =useSelector((state)=> state.sighn_normal)
   const { error } = useSelector((state) => state.sighn_normal);
@@ -32,6 +35,14 @@ async function Sighn_Manaule() {
   console.log("خطأ التسجيل:", resultAction.payload);
 }
 
+ useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+      dispatch(clearError());
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, dispatch]);
   }
     return(
         <>
@@ -186,7 +197,12 @@ onChange={(e) => dispatch(setformInfo({ password_confirmation: e.target.value })
     />
   </Box> 
       </CardContent>
-         {isLoading ? (
+       {error ? (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>):""}
+     {
+         isLoading ? (
   <LinearProgress sx={{ width: '100%', height: 6, borderRadius: 2 }} />
 ) : (
   <Button

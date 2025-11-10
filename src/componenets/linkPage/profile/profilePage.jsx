@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Card,
@@ -6,23 +6,32 @@ import {
   Grid,
   Avatar,
   Button,
-  Divider,
-  Chip,
+  CircularProgress,
   useTheme,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import AddLocationIcon from '@mui/icons-material/AddLocation';import DailyAzkarPage from "./victory/azkar";
+import AddLocationIcon from "@mui/icons-material/AddLocation";
+import DailyAzkarPage from "./victory/azkar";
+import { useDispatch, useSelector } from "react-redux";
+import { fetch_get_city } from "../../../Reducer/payere/get_city";
+import EdieModal from "./edit";
 
 export default function ProfilePage() {
+  const[ShowEdit,setShowEdit]= useState(false)
+const user = useSelector((state) => state.user);
+console.log(user)
+const cityState = useSelector((state) => state.get_city); 
+const dispatch =useDispatch()
+
+   console.log(cityState)
+
+useEffect(() => {
+  dispatch(fetch_get_city());
+}, [dispatch]);
   const theme = useTheme();
 
-  const user = {
-    name: "أحمد محمد",
-    email: "ahmad@example.com",
-    city: "دمشق",
-    avatar: "",
-  };
 
+ 
   return (
     <Box
       sx={{
@@ -36,7 +45,6 @@ export default function ProfilePage() {
         direction: "rtl",
       }}
     >
-      {/* 🌙 العبارة التحفيزية */}
       <Typography
         variant="h6"
         sx={{
@@ -49,7 +57,6 @@ export default function ProfilePage() {
         ما دام قلبك يذكر الله، لن يضيع طريقك 🌙
       </Typography>
 
-      {/* 📊 الإحصائيات (المخططان) */}
       <Grid
         container
         spacing={3}
@@ -62,18 +69,10 @@ export default function ProfilePage() {
         }}
       >
         <Grid item xs={12} md={6}>
-          
-           
-            <DailyAzkarPage color={theme.palette.primary.main} />
-         
+          <DailyAzkarPage color={theme.palette.primary.main} />
         </Grid>
-
-      
       </Grid>
 
-    
-
-      {/*  بيانات المستخدم */}
       <Card
         sx={{
           width: "100%",
@@ -85,7 +84,7 @@ export default function ProfilePage() {
         }}
       >
         <Avatar
-          src={user.avatar}
+          src={user?.avatar || ""}
           sx={{
             bgcolor: "primary.main",
             width: 80,
@@ -95,20 +94,24 @@ export default function ProfilePage() {
             mb: 2,
           }}
         >
-          {user.name.charAt(0)}
+          {user?.name?.charAt(0) || "م"}
         </Avatar>
 
         <Typography variant="h6" fontWeight="bold">
-          {user.name}
+          {user?.name || "مستخدم"}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {user.email || "بريد إلكتروني غير مضاف"}
+          {user?.email || "بريد إلكتروني غير مضاف"}
         </Typography>
         <Typography variant="body2" sx={{ mt: 0.5 }}>
-          <AddLocationIcon/> {user.city}
+          <AddLocationIcon sx={{ verticalAlign: "middle", mr: 0.5 }} />
+  {cityState?.data?.city || "غير محدد"}
         </Typography>
 
-        <Button
+      <Button onClick={()=>{setShowEdit(true)}}
+ variant="contained">تعديل الملف الشخصي</Button>
+
+        {/* <Button
           variant="contained"
           color="error"
           startIcon={<LogoutIcon />}
@@ -120,8 +123,13 @@ export default function ProfilePage() {
           }}
         >
           تسجيل الخروج
-        </Button>
+        </Button> */}
+
+
+        
       </Card>
+      {<EdieModal open={ShowEdit}
+  onClose={() => setShowEdit(false)}/>}
     </Box>
   );
 }

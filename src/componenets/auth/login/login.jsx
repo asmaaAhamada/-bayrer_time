@@ -6,31 +6,84 @@ import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Button, LinearProgress, TextField } from '@mui/material';
+import Cookies from "universal-cookie";
 
 import GoogleIcon from '@mui/icons-material/Google';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login_normal, setformInfo } from '../../../Reducer/user/auth/login';
+import { BaseUrl, LOGIN } from '../../../Backend/Api';
+import { useState } from 'react';
+import { postData } from '../../../Backend/ApiServeces';
+import { setUserData } from '../../../Reducer/user/userInfo';
 
 
 export default function Login_page(){
-  const {email,password} =useSelector((state)=> state.login_normal)
-    const { isLoading } = useSelector((state) => state.login_normal);
+
   
-  const dispatch =useDispatch()
+ 
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  //eventHandeler
-  async function Login_Manaule() {
-      const resultAction = await dispatch(login_normal());
-      if (login_normal.fulfilled.match(resultAction)) {
-    navigate("/app");
-  } else {
-    console.log("خطأ التسجيل:", resultAction.payload);
-  }}
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [openAlert, setOpenAlert] = useState(false);
+  const [loading, setLoading] = useState(false);
+  //console.log(form);
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("email", form.email);
+    formData.append("password", form.password);
+
+    try {
+      const response = await postData(`${BaseUrl}${LOGIN}`, formData ,true,true );
+console.log(response)
+console.log(response.data.user.email)
+      const token = response.data?.access_token;
+
+      if (response.success) {
+        dispatch(
+  setUserData({
+    email: response.data.user.email,
+  })
+
+
+        );
+
+        const cookies = new Cookies();
+        cookies.set("access_token", token, {
+          path: "/",
+          maxAge: 86400,
+        });
+              navigate("/app");
+
+      
+    }} catch (error) {
+      console.log(error)
+      setError(error.message || "حدث خطأ أثناء تسجيل الدخول");
+      setOpenAlert(true);
+      setTimeout(() => {
+        setOpenAlert(false);
+        setError("");
+      }, 2000);
+    } finally {
+      setLoading(false);
+    }
+  }
+
     return(
         <>
-         
+             <form onSubmit={handleSubmit}>
+
 <Container  sx={{ height: '100vh', // يملىء كامل الشاشة
           display: 'flex',
           justifyContent: 'center',
@@ -55,8 +108,10 @@ export default function Login_page(){
    <Box sx={{ mb:2 ,width: '100%', alignSelf: 'flex-start' }}>
     <TextField
     type='email'
-     value={email}
-    onChange={(e) => dispatch(setformInfo({ email: e.target.value }))}
+      name="email"
+                  value={form.email}
+                                    onChange={handleChange}
+
     
       fullWidth
        sx={{
@@ -87,9 +142,10 @@ export default function Login_page(){
   </Box> 
   <Box sx={{ mb:-2,width: '100%', alignSelf: 'flex-start' }}>
     <TextField
-     value={password}
-    onChange={(e) => dispatch(setformInfo({ password: e.target.value }))}
-    
+     name="password"
+                  value={form.password}
+                                    onChange={handleChange}
+
       fullWidth
       sx={{
         borderRadius: '15%',
@@ -120,11 +176,11 @@ export default function Login_page(){
   
       </CardContent>
           
- {isLoading ? (
+ {loading ? (
   <LinearProgress sx={{ width: '100%', height: 6, borderRadius: 2 }} />
 ) : (
   <Button
-    onClick={Login_Manaule}
+    onClick={handleSubmit}
     sx={{
       color: '#110f0dff',
       width: '90%',
@@ -155,7 +211,7 @@ export default function Login_page(){
            
    
       </Container>
-        
+        </form>
         
         </>
     )

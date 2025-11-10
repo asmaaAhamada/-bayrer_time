@@ -1,39 +1,53 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { postData } from '../../../Backend/ApiServeces';
-import { BaseUrl,  REFRESH } from '../../../Backend/Api';
+import { postDataWithToken } from '../../../Backend/ApiServeces';
+import { BaseUrl, REFRESH } from '../../../Backend/Api';
+import Cookies from 'universal-cookie';
+import { setUserData } from '../userInfo';
 
 const initialState = {
-  
   isLoading: false,
   error: null,
 };
 
 export const refreshToken = createAsyncThunk(
-  'SighnManaul/login_normal',
-  async (_, { getState, rejectWithValue }) => {
+  'auth/refreshToken',
+  async (_, { rejectWithValue, dispatch }) => {
     try {
-      const state = getState();
+      const cookies = new Cookies();
+      const oldToken = cookies.get('access_token');
 
+      if (!oldToken) {
+        throw new Error('لا يوجد توكن لتجديده');
+      }
 
-      const response = await postData(`${BaseUrl}${REFRESH}`, formData, {}, true);
+      // استدعاء API الريفرش مع التوكن
+      const response = await postDataWithToken(`${BaseUrl}${REFRESH}`, {}, {}, false);
+const newToken = response.original?.access_token;
 
+if (!newToken) {
+  throw new Error('فشل تجديد التوكن');
+}
 
+// خزّن التوكن الجديد
+cookies.set('access_token', newToken, { path: '/', maxAge: 86400 });
 
-      return response.user;
+// إذا أردت، يمكن تحديث بيانات المستخدم فقط إذا كانت موجودة
+if (response.data?.user) {
+  dispatch(setUserData({ user: response.data.user }));
+}
+
+return true; // أو return newToken
+
     } catch (error) {
-      return rejectWithValue(error?.message || "فشل التسجيل");
+      return rejectWithValue(error?.message || 'فشل تجديد التوكن');
     }
   }
 );
 
-const formSlice = createSlice({
+const refreshSlice = createSlice({
   name: 'refreshToken',
   initialState,
-  reducers: {
-    
-    
-   
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(refreshToken.pending, (state) => {
@@ -50,4 +64,4 @@ const formSlice = createSlice({
   },
 });
 
-export default formSlice.reducer;
+export default refreshSlice.reducer;

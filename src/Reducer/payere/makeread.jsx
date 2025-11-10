@@ -1,12 +1,18 @@
 import { createSlice ,createAsyncThunk  } from '@reduxjs/toolkit'
-import { BaseUrl, GET_QIBLA } from '../../Backend/Api';
-import { getData } from '../../Backend/ApiServeces';
+import { BaseUrl, MAKEREAD } from '../../Backend/Api';
+import {  patchData, postData, postDataWithToken } from '../../Backend/ApiServeces';
 
-export const fetch_get_qibla = createAsyncThunk(
-  'todos/get_qibla',
-  async (_, { rejectWithValue }) => {
+export const MAKE_READ = createAsyncThunk(
+  'todos/MAKE_READ',
+  async (zekr_category_id, { rejectWithValue }) => {
     try {
-      const response = await getData(`${BaseUrl}${GET_QIBLA}`);
+
+    
+      const body = {zekr_category_id :zekr_category_id };
+
+      console.log("📤 Sending body:", body);
+
+      const response = await patchData(`${BaseUrl}${MAKEREAD}`,body, {}, true);
       return response;
     } catch (error) {
       return rejectWithValue(error?.message);
@@ -15,25 +21,25 @@ export const fetch_get_qibla = createAsyncThunk(
 );
 
 export const counterSlice = createSlice({
-    name: 'get_qibla',
+    name: 'MAKE_READ',
     initialState: {
        isloading:false,
-  data: {},
+       data:{},
        error:null
     },
     reducers: {
     
     }, extraReducers: builder => {
         builder
-          .addCase(fetch_get_qibla.pending, (state, action) => {
+          .addCase(MAKE_READ.pending, (state, action) => {
             state.isloading = true
           })
-          .addCase(fetch_get_qibla.fulfilled, (state, action) => {
+          .addCase(MAKE_READ.fulfilled, (state, action) => {
             state.isloading = false
             state.data = action.payload
             
           })
-       .addCase(fetch_get_qibla.rejected, (state, action) => {
+       .addCase(MAKE_READ.rejected, (state, action) => {
             state.isloading = false;
             state.error = action.payload; // رسالة الخطأ القادمة من rejectWithValue
           })

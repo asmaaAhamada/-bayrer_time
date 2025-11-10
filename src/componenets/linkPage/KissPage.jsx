@@ -7,6 +7,7 @@ import { fetch_get_qibla } from "../../Reducer/payere/get_qibla";
 export default function KissPage() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.get_qibla);
+  console.log(state)
   const [angle, setAngle] = React.useState(0);
 
   // جلب البيانات عند التحميل

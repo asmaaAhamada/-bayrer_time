@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { postData } from '../../../Backend/ApiServeces';
 import { BaseUrl } from '../../../Backend/Api';
 import Cookies from 'universal-cookie';
+import { setUserData } from '../userInfo';
 
 const initialState = {
   formInfo: {
@@ -12,50 +13,62 @@ const initialState = {
   },
   isLoading: false,
   error: null,
+  user: null,
 };
 
-//  هنا منجيب الموقع داخل الـ thunk نفسه
 export const SighnManaul = createAsyncThunk(
   'SighnManaul/SighnManaul',
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue ,dispatch}) => {
     try {
       const state = getState();
       const { name, email, password, password_confirmation } = state.sighn_normal.formInfo;
 
-      //  نحصل على الإحداثيات من المتصفح
-     const coords = await new Promise((resolve, reject) => {
-  if (!navigator.geolocation) return resolve({ latitude: 0, longitude: 0 }); // بديل افتراضي
-  navigator.geolocation.getCurrentPosition(
-    pos => resolve(pos.coords),
-    err => resolve({ latitude: 0, longitude: 0 }), // fallback لو رفض المستخدم
-    { enableHighAccuracy: true, timeout: 10000 }
-  );
-});
-
+      // 📍 احصل على الموقع الحالي
+      const coords = await new Promise((resolve) => {
+        if (!navigator.geolocation) return resolve({ latitude: 0, longitude: 0 });
+        navigator.geolocation.getCurrentPosition(
+          (pos) => resolve(pos.coords),
+          () => resolve({ latitude: 0, longitude: 0 }),
+          { enableHighAccuracy: true, timeout: 10000 }
+        );
+      });
 
       const { latitude, longitude } = coords;
 
-      // نجهز البيانات للإرسال
+      // 📨 جهّز البيانات
       const formData = new FormData();
-      formData.append("name", name);
-      formData.append("email", email);
-      formData.append("password", password);
-      formData.append("password_confirmation", password_confirmation);
-      formData.append("latitude", latitude);
-      formData.append("longitude", longitude);
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('password_confirmation', password_confirmation);
+      formData.append('latitude', latitude);
+      formData.append('longitude', longitude);
 
+      // 📡 أرسل الطلب
       const response = await postData(`${BaseUrl}register`, formData, {}, true);
+      console.log("📦 register response:", response);
 
-const token=response.token
+      // 🪙 خزّن التوكن
       const cookies = new Cookies();
-      cookies.set("access_token", token, {
-        path: "/",
-        maxAge: 86400,
+      cookies.set('access_token', response.token, {
+        path: '/',
+        maxAge: 86400, // يوم واحد
       });
+  if (response.user) {
+          dispatch(
+  setUserData({
 
-      return response.user;
+      email: response.user.email,
+  }))
+      }
+
+
+
+
+      // ✅ أرجع بيانات المستخدم
+return response.user;
     } catch (error) {
-      return rejectWithValue(error?.message || "فشل التسجيل");
+      return rejectWithValue(error?.message || 'فشل التسجيل');
     }
   }
 );
@@ -68,6 +81,9 @@ const formSlice = createSlice({
       state.formInfo = { ...state.formInfo, ...action.payload };
     },
     resetForm: () => initialState,
+    clearError: (state) => {
+    state.error = null;
+  }
   },
   extraReducers: (builder) => {
     builder
@@ -75,8 +91,9 @@ const formSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(SighnManaul.fulfilled, (state) => {
+      .addCase(SighnManaul.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.user = action.payload; // 🟢 تم تخزين اليوزر هنا
       })
       .addCase(SighnManaul.rejected, (state, action) => {
         state.isLoading = false;
@@ -85,5 +102,5 @@ const formSlice = createSlice({
   },
 });
 
-export const { setformInfo, resetForm } = formSlice.actions;
+export const { setformInfo, resetForm ,clearError } = formSlice.actions;
 export default formSlice.reducer;

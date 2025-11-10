@@ -1,13 +1,17 @@
 import { createSlice ,createAsyncThunk  } from '@reduxjs/toolkit'
-import { BaseUrl, GET_QIBLA } from '../../Backend/Api';
-import { getData } from '../../Backend/ApiServeces';
+import { BaseUrl, GET_CITY, GET_SUSTEICS } from '../../Backend/Api';
+import { getData, postData, postDataWithToken } from '../../Backend/ApiServeces';
 
-export const fetch_get_qibla = createAsyncThunk(
-  'todos/get_qibla',
+export const fetch_status = createAsyncThunk(
+  'todos/fetch_status',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await getData(`${BaseUrl}${GET_QIBLA}`);
-      return response;
+
+    
+
+      
+      const response = await getData(`${BaseUrl}${GET_SUSTEICS}`, {}, true);
+      return response.weekly_statistics;
     } catch (error) {
       return rejectWithValue(error?.message);
     }
@@ -15,25 +19,25 @@ export const fetch_get_qibla = createAsyncThunk(
 );
 
 export const counterSlice = createSlice({
-    name: 'get_qibla',
+    name: 'get_staticces',
     initialState: {
        isloading:false,
-  data: {},
+       data:{},
        error:null
     },
     reducers: {
     
     }, extraReducers: builder => {
         builder
-          .addCase(fetch_get_qibla.pending, (state, action) => {
+          .addCase(fetch_status.pending, (state, action) => {
             state.isloading = true
           })
-          .addCase(fetch_get_qibla.fulfilled, (state, action) => {
+          .addCase(fetch_status.fulfilled, (state, action) => {
             state.isloading = false
             state.data = action.payload
             
           })
-       .addCase(fetch_get_qibla.rejected, (state, action) => {
+       .addCase(fetch_status.rejected, (state, action) => {
             state.isloading = false;
             state.error = action.payload; // رسالة الخطأ القادمة من rejectWithValue
           })

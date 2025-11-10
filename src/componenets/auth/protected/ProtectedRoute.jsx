@@ -1,44 +1,58 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import Cookies from "universal-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshToken } from "../../../Reducer/user/auth/refresh";
+import { Outlet, Navigate } from "react-router-dom";
+import Cookies from "universal-cookie";
+import { clearUserData, setUserData } from "../../../Reducer/user/userInfo";
+import APPLoading from "../../loader/APPLoading";
+import { getData } from "../../../Backend/ApiServeces";
+// import { setUserData, clearUserData } from "../../reducer/user";
+// import Loading from "../../wrong/mails/loading";
+// import FORBIDDIN from "./forbiden";
+// import APPLoading from "../../wrong/apploading";
 
-const ProtectedRoute = ({ redirectPath = "/" }) => {
-  const cookies = new Cookies();
-  const token = cookies.get("access_token"); 
+const cookies = new Cookies();
+
+export default function ProtectedRoute() {
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state) => state.refreshToken); // عدل الاسم حسب Slice
-  const [checkedToken, setCheckedToken] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
+  const roles = useSelector((state) => state.user?.roles || []);
+  
+// جديدة
+useEffect(() => {
+  const checkSession = async () => {
+    setLoading(true);
+    try {
+      const data = await getData(`http://127.0.0.1:8000/api/check-session`,
+        {}
+      );
+      console.log(data)
 
-  useEffect(() => {
-    const checkToken = async () => {
-      if (!token) {
-        try {
-          // استدعاء الريفرش توكن
-          await dispatch(refreshToken()).unwrap();
-        } catch (err) {
-          console.error("فشل تجديد التوكن:", err);
-        }
-      }
-      setCheckedToken(true); // انتهينا من محاولة الريفرش
-    };
+     dispatch(
+  setUserData({
+    name: data.user.name,
+  })
+);
+      
+      setAuthorized(true);
+    } catch (err) {
+      console.log(err);
+      dispatch(clearUserData());
+      setAuthorized(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    checkToken();
-  }, [token, dispatch]);
+  checkSession();
+}, [dispatch]);
 
-  if (!checkedToken || isLoading) {
-    // عرض مؤقت أثناء تحميل الريفرش
-    return <div>جارٍ التحقق من التوكن...</div>;
-  }
 
-  if (!token && error) {
-    // إذا بعد محاولة الريفرش لا يوجد توكن
-    return <Navigate to={redirectPath} replace />;
-  }
 
-  // إذا فيه توكن، اعرض المسارات الداخلية
+  if (loading) return <APPLoading />;
+  if (!authorized) return <Navigate to="/login" replace />;
+  
+  
   return <Outlet />;
-};
-
-export default ProtectedRoute;
+}

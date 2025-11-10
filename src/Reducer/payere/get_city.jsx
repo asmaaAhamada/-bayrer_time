@@ -1,12 +1,28 @@
 import { createSlice ,createAsyncThunk  } from '@reduxjs/toolkit'
 import { BaseUrl, GET_CITY } from '../../Backend/Api';
-import { getData } from '../../Backend/ApiServeces';
+import { getData, postData, postDataWithToken } from '../../Backend/ApiServeces';
 
 export const fetch_get_city = createAsyncThunk(
   'todos/fetchTodos',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await getData(`${BaseUrl}${GET_CITY}`);
+
+       // 📍 احصل على الموقع الحالي
+      const coords = await new Promise((resolve) => {
+        if (!navigator.geolocation) return resolve({ latitude: 0, longitude: 0 });
+        navigator.geolocation.getCurrentPosition(
+          (pos) => resolve(pos.coords),
+          () => resolve({ latitude: 0, longitude: 0 }),
+          { enableHighAccuracy: true, timeout: 10000 }
+        );
+      });
+
+      const { latitude, longitude } = coords;
+      const formData = new FormData();
+      formData.append('latitude', latitude);
+      formData.append('longitude', longitude);
+
+      const response = await postDataWithToken(`${BaseUrl}${GET_CITY}`,formData, {}, true);
       return response.data;
     } catch (error) {
       return rejectWithValue(error?.message);
@@ -18,7 +34,7 @@ export const counterSlice = createSlice({
     name: 'get_city',
     initialState: {
        isloading:false,
-       data:[],
+       data:{},
        error:null
     },
     reducers: {

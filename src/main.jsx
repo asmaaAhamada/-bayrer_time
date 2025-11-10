@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
 import App from './App'
 import store from './store/store'
-import './style.css'
+// import './style.css'
 
 function Root() {
   const [mode, setMode] = useState('light')

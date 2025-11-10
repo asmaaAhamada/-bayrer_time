@@ -11,17 +11,23 @@ import { useDispatch, useSelector } from "react-redux";
 
 import RemembranceCard from "./Remembrances";
 import { fetchAzkarByCategory, fetchCategories } from "../../../Reducer/payere/azkar";
+import { fetchFavorites } from "../../../Reducer/payere/favourite";
 
 export default function AzkarTabs() {
   const dispatch = useDispatch();
   const { categories, azkar, isLoading, error } = useSelector(
     (state) => state.remembrances
   );
+const { favorites } = useSelector((state) => state.favorites);
+
+  console.log(favorites)
   const [value, setValue] = React.useState(0);
 
   // تحميل التصنيفات عند أول تشغيل
   React.useEffect(() => {
     dispatch(fetchCategories());
+  dispatch(fetchFavorites()); // 👈 يستدعي الفيفوريت الجديدة
+
   }, [dispatch]);
 
   // تحميل أذكار أول تصنيف عند جلب التصنيفات
@@ -69,8 +75,12 @@ export default function AzkarTabs() {
           azkar.map((item) => (
             <RemembranceCard
               key={item.id}
+                 id={item.id}              
+
               text={item.content}
               reward={`تكرار: ${item.repetition}`}
+                      likedInitially={favorites.includes(item.id)} // 👈 هنا نمرّر حالة الإعجاب المبدئية
+
             />
           ))
         ) : (
