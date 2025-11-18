@@ -21,9 +21,14 @@ export const fetch_get_city = createAsyncThunk(
       const formData = new FormData();
       formData.append('latitude', latitude);
       formData.append('longitude', longitude);
+// console.log([...formData]);
+for (let pair of formData.entries()) {
+  console.log(pair[0] + ": " + pair[1]);
+}
 
-      const response = await postDataWithToken(`${BaseUrl}${GET_CITY}`,formData, {}, true);
-      return response.data;
+      const response = await postDataWithToken(`http://127.0.0.1:8000/api/get-city`,formData, {}, true);
+      console.log(response)
+return response;
     } catch (error) {
       return rejectWithValue(error?.message);
     }

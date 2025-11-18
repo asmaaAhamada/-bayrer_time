@@ -32,6 +32,8 @@ useEffect(() => {
      dispatch(
   setUserData({
     name: data.user.name,
+        emial: data.user.emial,
+
   })
 );
       

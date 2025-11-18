@@ -54,13 +54,13 @@ export const SighnManaul = createAsyncThunk(
         path: '/',
         maxAge: 86400, // يوم واحد
       });
-  if (response.user) {
-          dispatch(
-  setUserData({
+  // if (response.user) {
+  //         dispatch(
+  // setUserData({
 
-      email: response.user.email,
-  }))
-      }
+  //     email: response.user.email,
+  // }))
+  //     }
 
 
 

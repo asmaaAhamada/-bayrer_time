@@ -10,6 +10,8 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
+import { fetchPrayerTimes } from "../../Reducer/payere/prayerTime";
+import { useDispatch } from "react-redux";
 
 export default function SettingPage() {
   const theme = useTheme();
@@ -17,6 +19,11 @@ export default function SettingPage() {
   const [timeFormat, setTimeFormat] = React.useState("24");
   const [reminderTime, setReminderTime] = React.useState(5);
   const [azanSound, setAzanSound] = React.useState("Makkah");
+   const dispatch =useDispatch()
+  const [method, setMethod] = React.useState(5); // مبدئياً السعودية
+React.useEffect(() => {
+    dispatch(fetchPrayerTimes(method));
+  }, [method, dispatch]);
 
   return (
     <Box
@@ -53,8 +60,16 @@ export default function SettingPage() {
         </InputLabel>
         <Select
           labelId="reminder-time-label"
-          value={reminderTime}
-          onChange={(e) => setReminderTime(e.target.value)}
+           value={method}
+onChange={(e) => {
+  const newMethod = e.target.value;
+  dispatch(setMethod(newMethod)); // نغيّر القيمة
+  dispatch(fetchPrayerTimes());   // نجيب حسب القيمة الجديدة
+
+
+  console.log("🚀 تم تغيير الطريقة إلى:", newMethod);
+}}
+
           sx={{
             color: theme.palette.text.primary,
             "& .MuiOutlinedInput-notchedOutline": {
@@ -68,8 +83,10 @@ export default function SettingPage() {
             },
           }}
         >
-          <MenuItem value={5}>السعودية</MenuItem>
-          <MenuItem value={10}>رابطة العالم الاسلامي</MenuItem>
+           <MenuItem value={4}>أم القرى (السعودية)</MenuItem>
+        <MenuItem value={2}>الجمعية الإسلامية لأمريكا الشمالية</MenuItem>
+        <MenuItem value={3}>رابطة العالم الإسلامي</MenuItem>
+        <MenuItem value={5}>الهيئة المصرية للمساحة</MenuItem>
         </Select>
       </FormControl>
 

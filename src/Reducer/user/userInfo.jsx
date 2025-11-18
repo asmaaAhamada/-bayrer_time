@@ -2,22 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   name: '',
-  email: '',
+  emial: '',
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserData(state, action) {
-      // نخزن فقط الاسم المرسل
-      state.name = action.payload.name;
-            state.email = action.payload.email;
-
-    },
+   setUserData(state, action) {
+  state.name = action.payload.name;
+  state.emial = action.payload.emial; // يطابق الـ payload
+}
+,
     clearUserData(state) {
       state.name = '';
-      state.email = '';
+      state.emial = '';
     },
   },
 });

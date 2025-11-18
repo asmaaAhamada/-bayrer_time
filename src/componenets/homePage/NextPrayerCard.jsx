@@ -1,11 +1,27 @@
 import { Card, CardContent, Typography, Box } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchnnextTimes } from '../../Reducer/payere/get_next_Payer';
+import { useEffect } from 'react';
 
-const nextPrayer = {
-  name: "العصر",
-  time: "15:45",
+
+const prayerNamesArabic = {
+  Fajr: "الفجر",
+ 
 };
 
 export default function NextPrayerCard() {
+  const nextTime= useSelector((state)=>state.fetchnnextTimes)
+  console.log(nextTime.data.next_prayer
+.name)
+  const dispath=useDispatch()
+
+
+
+
+
+  useEffect(() => {
+  dispath(fetchnnextTimes())
+  }, [])
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
       <Card
@@ -38,9 +54,13 @@ export default function NextPrayerCard() {
             الصلاة القادمة
           </Typography>
           <Typography variant="h4" sx={{ mb: 1, fontWeight: 'bold' }}>
-            {nextPrayer.name}
+            {prayerNamesArabic[nextTime.data.next_prayer
+.name]}
           </Typography>
-          <Typography variant="h5">{nextPrayer.time}</Typography>
+          <Typography variant="h5">
+  {nextTime.data.next_prayer.time.split(" ")[1].slice(0, 5)}
+</Typography>
+
         </CardContent>
       </Card>
 

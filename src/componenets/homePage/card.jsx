@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import fager from '../../assets/images/فجر.jpg'
@@ -7,19 +7,34 @@ import assar from '../../assets/images/عصر.jpg'
 import maghreb from '../../assets/images/مغرب.jpg'
 import eshaa from '../../assets/images/عشاء.jpg'
 import { useDispatch, useSelector } from "react-redux";
+import { fetchPrayerTimes } from "../../Reducer/payere/prayerTime";
 
-const prayers = [
-  { name: "الفجر", time: "05:10" , img:fager},
-  { name: "الظهر", time: "12:30", img:doher },
-  { name: "العصر", time: "15:45", img:assar },
-  { name: "المغرب", time: "18:20", img:maghreb },
-  { name: "العشاء", time: "19:50", img:eshaa },
-];
+
 
 export default function PrayerCards() {
-  const state =useSelector((state)=>state.get_cityReducer)
+    const state = useSelector((state) => state.prayerTimes);
+// console.log(state.data.timings.
+// Asr)
   const dispath= useDispatch()
   const theme = useTheme();
+// if (loading) return <Typography>جاري التحميل...</Typography>;
+//   if (error) return <Typography color="error">{error}</Typography>;
+useEffect(()=>{
+dispath(fetchPrayerTimes())
+},[])
+
+const prayers = [
+    { name: "الفجر", time: state?.data.timings?.Fajr, img: fager },
+    { name: "الظهر", time: state?.data.timings?.Dhuhr, img: doher },
+    { name: "العصر", time: state?.data.timings?.Asr, img: assar },
+    { name: "المغرب", time: state?.data.timings?.Maghrib, img: maghreb },
+    { name: "العشاء", time: state?.data.timings?.Isha, img: eshaa },
+];
+
+
+
+
+
 
   return (
     <Box sx={{ p: 2, bgcolor: theme.palette.background.default, minHeight: '100vh' }}>

@@ -101,7 +101,7 @@ useEffect(() => {
           {user?.name || "مستخدم"}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {user?.email || "بريد إلكتروني غير مضاف"}
+          {user?.emial || "بريد إلكتروني غير مضاف"}
         </Typography>
         <Typography variant="body2" sx={{ mt: 0.5 }}>
           <AddLocationIcon sx={{ verticalAlign: "middle", mr: 0.5 }} />

@@ -10,4 +10,6 @@ export const BY_CATEGORY ="by-category"
 export const GET_SUSTEICS ="get_staticsit_zekr"
 export const UPDATE ="profile/update"
 export const MAKEREAD ="markZekrAsRead"
+export const GET_PAYRER_TIME ="getPrayerTimes"
+export const NEXT ="getNextPrayer"
 

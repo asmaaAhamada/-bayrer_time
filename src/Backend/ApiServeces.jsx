@@ -11,7 +11,7 @@ export const getData = async (url, customHeaders = {}) => {
 
   try {
     const response = await axios.get(url, { headers });
-    return response.data;
+    return response.data || response;
   } catch (error) {
      console.error("AXIOS ERROR:", error); 
     throw error.response ? error.response.data : error;

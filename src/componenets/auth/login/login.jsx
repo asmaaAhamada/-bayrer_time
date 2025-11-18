@@ -51,13 +51,13 @@ console.log(response.data.user.email)
       const token = response.data?.access_token;
 
       if (response.success) {
-        dispatch(
-  setUserData({
-    email: response.data.user.email,
-  })
+  //       dispatch(
+  // setUserData({
+  //   email: response.data.user.email,
+  // })
 
 
-        );
+  //       );
 
         const cookies = new Cookies();
         cookies.set("access_token", token, {

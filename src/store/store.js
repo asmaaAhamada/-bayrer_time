@@ -10,6 +10,8 @@ import get_staticcesReducer from "../Reducer/payere/get_staticsit"
 import updateReducer from "../Reducer/user/update"
 import MAKE_READReducer from "../Reducer/payere/makeread"
 import favoritesReducer from "../Reducer/payere/favourite"
+import prayerTimesReducer from "../Reducer/payere/prayerTime"
+import fetchnnextTimesReducer from "../Reducer/payere/get_next_Payer"
 export default configureStore({
   reducer: {
     sighn_normal:sighn_normalReducer,
@@ -23,5 +25,7 @@ export default configureStore({
     get_staticces:get_staticcesReducer,
     MAKE_READ:MAKE_READReducer,
     favorites:favoritesReducer,
+    prayerTimes:prayerTimesReducer,
+    fetchnnextTimes:fetchnnextTimesReducer,
  }
 })

@@ -3,7 +3,8 @@ import { Card, CardContent, Typography, IconButton, Box } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import axios from 'axios';
-import { postData, postDataWithToken } from '../../../Backend/ApiServeces';
+import { patchData, postData, postDataWithToken } from '../../../Backend/ApiServeces';
+import { BaseUrl, MAKEREAD } from '../../../Backend/Api';
 
 export default function RemembranceCard({ id,text, reward ,likedInitially}) {
   const [liked, setLiked] = React.useState(likedInitially || false);
@@ -25,7 +26,22 @@ console.log("category_id المرسل:", id);
     console.error("Error adding to favorites:", error);
   }
 }
+//read
+async function handleRead(id){
+  try {
+    
+      const body = {zekr_category_id :id };
+console.log("category_id المرسل:", id);
 
+    const r1=await patchData(`${BaseUrl}${MAKEREAD}`, body);
+    console.log(r1)
+    setSee(!see);
+
+    
+  } catch (error) {
+    console.error("Error adding to favorites:", error);
+  }
+}
 
   return (
     <Card sx={{ mb: 2 }}>
@@ -40,7 +56,7 @@ console.log("category_id المرسل:", id);
           <IconButton  onClick={() => handleFavorite(id)} color={liked ? 'error' : 'default'}>
             <FavoriteIcon />
           </IconButton>
-          <IconButton  color={see ? 'success' : 'default'}>
+          <IconButton onClick={() => handleRead(id)}   color={see ? 'success' : 'default'}>
             <RemoveRedEyeIcon />
           </IconButton>
                   </Box>
