@@ -6,14 +6,21 @@ import {
   LinearProgress,
   Alert,
   Typography,
+  IconButton,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 import RemembranceCard from "./Remembrances";
 import { fetchAzkarByCategory, fetchCategories } from "../../../Reducer/payere/azkar";
 import { fetchFavorites } from "../../../Reducer/payere/favourite";
+import { patchData } from "../../../Backend/ApiServeces";
+import { BaseUrl, MAKEREAD } from "../../../Backend/Api";
 
 export default function AzkarTabs() {
+  const [readCategories, setReadCategories] = React.useState([]);
+  const [readerror, setReaderror] = React.useState(false);
+
   const dispatch = useDispatch();
   const { categories, azkar, isLoading, error } = useSelector(
     (state) => state.remembrances
@@ -41,21 +48,78 @@ const { favorites } = useSelector((state) => state.favorites);
     setValue(newValue);
     dispatch(fetchAzkarByCategory(categories[newValue].id));
   };
+// make_read
+  const handleCategoryRead = async (categoryId) => {
+  try {
+    const body = { zekr_category_id: categoryId };
+    const res = await patchData(`${BaseUrl}${MAKEREAD}`, body);
+
+    if (res?.success) {
+      setReadCategories((prev) => [...prev, categoryId]);
+    }
+
+    console.log("Mark Category Read:", res);
+  } catch (error) {
+    setReaderror("لقد  قمت بقراءة هذا الذكر بالفعل سابقا")
+    console.error("Error make category read:", error);
+    setTimeout(() => setReaderror(false), 3000);
+
+  }
+};
+
+// ===========make_read==============
+
 
   return (
     <Box sx={{ width: "100%" }}>
       {/* التابات */}
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        variant="scrollable"
-        scrollButtons="auto"
-        aria-label="azkar tabs"
-      >
-        {categories.map((cat) => (
-          <Tab key={cat.id} label={cat.name} />
-        ))}
-      </Tabs>
+     <Tabs
+  value={value}
+  onChange={handleChange}
+  variant="scrollable"
+  scrollButtons="auto"
+  aria-label="azkar tabs"
+>
+  {categories.map((cat, index) => (
+    <Tab
+      key={cat.id}
+      label={
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography>{cat.name}</Typography>
+
+          {/* 👈 زر العين لكل تب */}
+         <IconButton
+  size="small"
+    sx={{ color: readCategories.includes(cat.id) ? "#007BFF" : "inherit" }} 
+  onClick={(e) => {
+    e.stopPropagation();
+    handleCategoryRead(cat.id);
+  }}
+>
+  <RemoveRedEyeIcon fontSize="small" />
+</IconButton>
+
+        </Box>
+      }
+    />
+  ))}
+</Tabs>
+{readerror && (
+  <Alert
+    severity="error"
+    sx={{
+      position: "fixed",
+      top: "20px",
+      left: "50%",
+      transform: "translateX(-50%)",
+      zIndex: 9999,
+      minWidth: "250px",
+    }}
+  >
+    {readerror}
+  </Alert>
+)}
+
 
       {/* اللودر */}
       {isLoading && (
@@ -80,6 +144,7 @@ const { favorites } = useSelector((state) => state.favorites);
               text={item.content}
               reward={`تكرار: ${item.repetition}`}
                       likedInitially={favorites.includes(item.id)} // 👈 هنا نمرّر حالة الإعجاب المبدئية
+  isCategoryRead={readCategories.includes(categories[value]?.id)} // 👈 هنا
 
             />
           ))

@@ -23,16 +23,7 @@ export default function DailyAzkarPage() {
     dispatch(fetch_status());
   }, [dispatch]);
 
-  // الأيام الأسبوعية الثابتة
-  const defaultDays = [
-    "السبت",
-    "الأحد",
-    "الإثنين",
-    "الثلاثاء",
-    "الأربعاء",
-    "الخميس",
-    "الجمعة",
-  ];
+ 
 
  // تحويل weekly_statistics إلى مصفوفة من القيم
 const weeklyData = statusData?.weekly_statistics

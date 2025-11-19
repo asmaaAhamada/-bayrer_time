@@ -23,7 +23,7 @@ console.log(user)
 const cityState = useSelector((state) => state.get_city); 
 const dispatch =useDispatch()
 
-   console.log(cityState)
+   console.log(cityState.data)
 
 useEffect(() => {
   dispatch(fetch_get_city());
@@ -109,7 +109,7 @@ useEffect(() => {
         </Typography>
 
       <Button onClick={()=>{setShowEdit(true)}}
- variant="contained">تعديل الملف الشخصي</Button>
+ variant="contained">  تسجيل الخروج</Button>
 
         {/* <Button
           variant="contained"

@@ -67,7 +67,7 @@ onChange={(e) => {
   dispatch(fetchPrayerTimes());   // نجيب حسب القيمة الجديدة
 
 
-  console.log("🚀 تم تغيير الطريقة إلى:", newMethod);
+  // console.log("🚀 تم تغيير الطريقة إلى:", newMethod);
 }}
 
           sx={{

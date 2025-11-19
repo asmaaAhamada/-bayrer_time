@@ -6,9 +6,8 @@ import axios from 'axios';
 import { patchData, postData, postDataWithToken } from '../../../Backend/ApiServeces';
 import { BaseUrl, MAKEREAD } from '../../../Backend/Api';
 
-export default function RemembranceCard({ id,text, reward ,likedInitially}) {
+export default function RemembranceCard({ id,text, reward ,likedInitially,isCategoryRead}) {
   const [liked, setLiked] = React.useState(likedInitially || false);
-  const [see, setSee] = React.useState(false);
 
 async function handleFavorite(id){
   try {
@@ -26,28 +25,21 @@ console.log("category_id المرسل:", id);
     console.error("Error adding to favorites:", error);
   }
 }
-//read
-async function handleRead(id){
-  try {
-    
-      const body = {zekr_category_id :id };
-console.log("category_id المرسل:", id);
 
-    const r1=await patchData(`${BaseUrl}${MAKEREAD}`, body);
-    console.log(r1)
-    setSee(!see);
-
-    
-  } catch (error) {
-    console.error("Error adding to favorites:", error);
-  }
-}
 
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
         <Box sx={{ display: 'flex',gap:12 }}>
-          <Typography variant="body1">{text}</Typography>
+<Typography
+  variant="body1"
+  sx={{
+    textDecoration: isCategoryRead ? "line-through" : "none",
+    opacity: isCategoryRead ? 0.5 : 1,
+  }}
+>
+  {text}
+</Typography>
                  
 
         </Box>
@@ -56,9 +48,7 @@ console.log("category_id المرسل:", id);
           <IconButton  onClick={() => handleFavorite(id)} color={liked ? 'error' : 'default'}>
             <FavoriteIcon />
           </IconButton>
-          <IconButton onClick={() => handleRead(id)}   color={see ? 'success' : 'default'}>
-            <RemoveRedEyeIcon />
-          </IconButton>
+          
                   </Box>
         {reward && <Typography variant="caption" color="text.secondary">ثواب: {reward}</Typography>}
       </CardContent>

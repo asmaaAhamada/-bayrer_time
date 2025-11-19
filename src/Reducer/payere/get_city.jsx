@@ -26,8 +26,8 @@ for (let pair of formData.entries()) {
   console.log(pair[0] + ": " + pair[1]);
 }
 
-      const response = await postDataWithToken(`http://127.0.0.1:8000/api/get-city`,formData, {}, true);
-      console.log(response)
+      const response = await getData(`http://127.0.0.1:8000/api/get-city`, {}, true);
+      console.log(response.data)
 return response;
     } catch (error) {
       return rejectWithValue(error?.message);

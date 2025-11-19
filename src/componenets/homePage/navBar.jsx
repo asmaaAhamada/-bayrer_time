@@ -3,6 +3,7 @@ import { FaMosque } from "react-icons/fa6";
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';import SettingsIcon from '@mui/icons-material/Settings';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
@@ -35,7 +36,7 @@ const navItems = [
   { label: 'القبلة', path: '/app/Kiss' ,icone:<AutoModeIcon/>},
   {label: 'مواقيتي', path: '/app/Home',icone:<AlarmOnIcon/>},
   { label: 'الاذكار', path: '/app/Remembrances' ,icone:<AutoStoriesIcon/>},
-    { label: 'المسجد الأقرب', path: '/app/mousq',icone:<AccountBalanceIcon/> },
+    { label: 'التقويم الهجري', path: '/app/mousq',icone:<CalendarMonthIcon/> },
     { label: ' حسابي', path: '/app/profile',icone:<AccountCircleIcon/> },
 
 

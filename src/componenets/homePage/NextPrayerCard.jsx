@@ -1,29 +1,48 @@
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Typography, Box, CircularProgress, Alert } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchnnextTimes } from '../../Reducer/payere/get_next_Payer';
 import { useEffect } from 'react';
+import { fetchconvert } from '../../Reducer/date/convert';
 
 
 const prayerNamesArabic = {
   Fajr: "الفجر",
- 
+  Dhuhr: "الظهر",
+  Asr: "العصر",
+  Maghrib: "المغرب",
+  Isha: "العشاء",
+  
 };
 
 export default function NextPrayerCard() {
+  
+    const {loading ,error}= useSelector((state)=>state.fetchnnextTimes)
+
   const nextTime= useSelector((state)=>state.fetchnnextTimes)
-  console.log(nextTime.data.next_prayer
-.name)
+// console.log(nextTime?.data?.next_prayer?.name);
+
+
+const data= useSelector((state)=>state.convert)
+  console.log(data?.data?.day
+)
+    const {isloading }= useSelector((state)=>state.convert)
+
+
+
   const dispath=useDispatch()
+useEffect(() => {
+  dispath(fetchconvert())
 
+  }, [])
 
-
-
-
-  useEffect(() => {
+useEffect(() => {
   dispath(fetchnnextTimes())
   }, [])
+
+
+  
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1}}>
       <Card
         sx={{
           minWidth: 280,
@@ -38,7 +57,7 @@ export default function NextPrayerCard() {
           '&::after': {
             content: '""',
             position: 'absolute',
-            top: -5,
+            top: -9,
             left: -5,
             right: -5,
             bottom: -5,
@@ -53,13 +72,31 @@ export default function NextPrayerCard() {
           <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
             الصلاة القادمة
           </Typography>
-          <Typography variant="h4" sx={{ mb: 1, fontWeight: 'bold' }}>
-            {prayerNamesArabic[nextTime.data.next_prayer
-.name]}
+          {loading ? (
+                  <CircularProgress color="primary" />
+                ) : error ? (
+                  <Alert severity="error" sx={{ mb: 2 }}>
+                    {error}
+                  </Alert>
+                ) :( 
+                  <>
+                  <Typography variant="h4" sx={{ mb: 1, fontWeight: 'bold' }}>
+            {prayerNamesArabic[nextTime?.data?.next_prayer?.name]}
+
           </Typography>
           <Typography variant="h5">
-  {nextTime.data.next_prayer.time.split(" ")[1].slice(0, 5)}
+  {nextTime?.data?.next_prayer?.time.split(" ")[1].slice(0, 5)?? "45"}
+  
 </Typography>
+
+
+</>
+)}
+        
+  {/* <Typography variant="h6">
+
+12\2\7ه
+    </Typography> */}
 
         </CardContent>
       </Card>

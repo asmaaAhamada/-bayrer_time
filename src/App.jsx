@@ -10,10 +10,10 @@ import Layout from './componenets/homePage/Layout'
 import RemembranceCard from './componenets/linkPage/Remembrances/Remembrances'
 import CustomTabPanel from './componenets/linkPage/Remembrances/tabs'
 import NotifyPage from './componenets/linkPage/notifecation'
-import NearestMosquePage from './componenets/linkPage/mousqPage'
 import ProfilePage from './componenets/linkPage/profile/ProfilePage'
 import WelcomePage from './componenets/welcomPage'
 import ProtectedRoute from './componenets/auth/protected/ProtectedRoute'
+import Hijri_DatePage from './componenets/linkPage/hjgri_date'
 export default function App({ toggleMode, mode }){
   return (
    
@@ -35,7 +35,7 @@ export default function App({ toggleMode, mode }){
           <Route path="/app/Kiss" element={<KissPage />} />
           <Route path="/app/Setting" element={<SettingPage />} />
                     <Route path="/app/notify" element={<NotifyPage />} />
-                                        <Route path="/app/mousq" element={<NearestMosquePage />} />
+                                        <Route path="/app/mousq" element={<Hijri_DatePage />} />
 
 
                                                   <Route path="/app/profile" element={<ProfilePage />} />

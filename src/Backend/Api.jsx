@@ -13,3 +13,6 @@ export const MAKEREAD ="markZekrAsRead"
 export const GET_PAYRER_TIME ="getPrayerTimes"
 export const NEXT ="getNextPrayer"
 
+export const HIJRI="hijri/"
+export const CALENDER="calendar"
+export const CONVERT="convert"

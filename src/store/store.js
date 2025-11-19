@@ -12,6 +12,8 @@ import MAKE_READReducer from "../Reducer/payere/makeread"
 import favoritesReducer from "../Reducer/payere/favourite"
 import prayerTimesReducer from "../Reducer/payere/prayerTime"
 import fetchnnextTimesReducer from "../Reducer/payere/get_next_Payer"
+import get_dataReducer from "../Reducer/date/all_data"
+import convertReducer from "../Reducer/date/convert"
 export default configureStore({
   reducer: {
     sighn_normal:sighn_normalReducer,
@@ -27,5 +29,7 @@ export default configureStore({
     favorites:favoritesReducer,
     prayerTimes:prayerTimesReducer,
     fetchnnextTimes:fetchnnextTimesReducer,
+    get_data:get_dataReducer,
+    convert:convertReducer
  }
 })

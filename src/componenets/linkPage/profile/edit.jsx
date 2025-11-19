@@ -10,7 +10,12 @@ import {
   MenuItem,
   TextField,
   FormControl,
-  InputLabel,CircularProgress
+  InputLabel,CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
 } from "@mui/material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import SatelliteIcon from "@mui/icons-material/Satellite";
@@ -19,23 +24,16 @@ import { setformInfo, update } from "../../../Reducer/user/update";
 
 
 export default function EdieModal({ open, onClose ,onSuccess}) {
-  const dispatch = useDispatch();
-  const { formInfo, isLoading ,error } = useSelector((state) => state.update);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    dispatch(setformInfo({ [name]: files ? files[0] : value }));
-  };
-
-  const handleSubmit = () => {
-    dispatch(update()).unwrap().then(() => {
-      onClose();
-    });
-  };
+ 
+function handleLogout(){
+  alert("hi")
+}
+  
      
   return (
     <>
-      {error && (
+      {/* {error && (
         <Box
           sx={{
             position: "fixed",
@@ -56,153 +54,51 @@ export default function EdieModal({ open, onClose ,onSuccess}) {
         >
           {error}
         </Box>
-      )}
+      )} */}
 
-      <Modal
-        open={open}
-        onClose={onClose}
-        aria-labelledby="add-employee-modal"
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-      >
-        <Paper
-          elevation={4}
-          sx={{
-            width: "40%",
-            height: "80%",
-            p: 4,
-            borderRadius: 3,
-            direction: "rtl",
-            outline: "none",
-            overflowY: "auto",
-            display: "flex",
-            flexDirection: "column",
-          }}
+      <Dialog
+          open={open}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
         >
-          {/* زر الإغلاق */}
-          <HighlightOffIcon
-            onClick={onClose}
-            sx={{ fontSize: "25px", cursor: "pointer", mb: 1, float: "left" }}
-          />
-
-          {/* العنوان */}
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: "700",
-             
-              fontSize: "22px",
-              mb: 1,
-              borderBottom: "3px solid",
-             
-              display: "inline-block",
-              pb: 0.5,
-            }}
+          <DialogTitle
+            id="alert-dialog-title"
+            sx={{ direction: "rtl", fontSize: "24px", fontWeight: "700" }}
           >
-            تعديل  بيانات 
-          </Typography>
-
-          <Grid container spacing={2} sx={{ mt: 1, flexGrow: 1, columnGap: 6 }}>
-            {/* العمود الأيمن */}
-            <Grid item xs={12} sm={6}>
-              <Box sx={{ mb: 2 }}>
-                <Typography sx={{ mb: 0.7, fontWeight: "700" }}>
-الاسم               </Typography>
-                <TextField
-                  fullWidth
-                  name="name"
-                value={formInfo.name}
-          onChange={handleChange}
-                  size="small"
-                />
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography sx={{ mb: 0.7, fontWeight: "700" }}>
-البريد الالكتروني               </Typography>
-                <TextField
-                  fullWidth
-                  name="email"
-                  type="email"
-                 value={formInfo.email}
-          onChange={handleChange}
-                  size="small"
-                />
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography sx={{ mb: 0.7, fontWeight: "700" }}>
-                  صورة البروفايل
-                </Typography>
-                <Button
-                  variant="outlined"
-                  component="label"
-                  sx={{
-                    width: "90%",
-                    justifyContent: "flex-start",
-                    textTransform: "none",
-                    padding: "6px 8px",
-                    border: "1px solid #ccc",
-                    color: "#333",
-                    backgroundColor: "#fff",
-                  }}
-                >
-                  تحميل صورة
-                  <input
-                    type="file"
-                    name="avatar"
-                    hidden
-                    accept="image/*" onChange={handleChange}
-                  />
-                  <SatelliteIcon sx={{ mr: 1, color: "gray" }} />
-                </Button>
-              </Box>
-
-            
-            </Grid>
-
-            {/* العمود الأيسر */}
-            
-          </Grid>
-
-          {/* زر الإضافة */}
-          <Box sx={{ mt: 3, textAlign: "left", mt: "auto" }}>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            disabled={isLoading}
-             sx={{
-                borderRadius: "20px",
-                width: "100px",
-                color: "white",
-                fontSize: "18px",
-                fontWeight: "700",
-                textTransform: "none",
-              }}
-          >
-            {isLoading ? "جاري الحفظ..." : "حفظ"}
-          </Button>
-               <Button
-               onClick={onClose}
-              variant="contained"
+            {"هل ترغب حقا بتسجيل الخروج؟"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText
+              sx={{ fontSize: "24px", fontWeight: "700" }}
+              id="alert-dialog-description"
+            >
+              لن تستطبع التراجع اذا قمت بالضغط على موافق
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions sx={{ mr: 39 }}>
+            <Button
+              sx={{ color: "red", fontSize: "24px", fontWeight: "700" }}
+              autoFocus
+               onClick={handleLogout}
+            >
+              موافق
+            </Button>
+            <Button
+              onClick={onClose}
+               
               sx={{
-                borderRadius: "20px",
-                width: "100px",
-                color: "white",
-                fontSize: "18px",
+                color: "rgb(14,74,35)",
+                fontSize: "24px",
                 fontWeight: "700",
-                textTransform: "none",
               }}
             >
-               {/* {editLoading ? (
-                <CircularProgress size={24} sx={{ color: "white" }} />
-              ) : (
-                "إضافة"
-              )} */}
               تراجع
             </Button>
-          </Box>
-        </Paper>
-      </Modal>
+          </DialogActions>
+        </Dialog>
+
+         
+
     </>
   );
 }

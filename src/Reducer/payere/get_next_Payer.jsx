@@ -14,14 +14,15 @@ const initialState = {
 export const fetchnnextTimes = createAsyncThunk(
   "prayerTimes/fetchnnextTimes",
   async (_, thunkAPI) => {
-    const method = thunkAPI.getState().prayerTimes.method; // 🔥
+    const method = thunkAPI.getState().fetchnnextTimes.method
+; // 🔥
     console.log("🟢 METHODE:", method);
 
     try {
       const res = await getData(
         `${BaseUrl}${NEXT}?method=${method}`
       );
-            // console.log(res)
+            console.log(res)
 
       return res;
     } catch (error) {
