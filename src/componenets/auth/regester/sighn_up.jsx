@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearError, resetForm, setformInfo, SighnManaul } from '../../../Reducer/user/auth/sighnNormal';
 import {  Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { getData } from '../../../Backend/ApiServeces';
 
 
 export default function Singhn_Up(){
@@ -28,6 +29,7 @@ const navigate = useNavigate();
 
 //eventHandeler
 async function Sighn_Manaule() {
+  const location =Geolocation()
     const resultAction = await dispatch(SighnManaul());
     if (SighnManaul.fulfilled.match(resultAction)) {
   navigate("/app");
@@ -44,6 +46,23 @@ async function Sighn_Manaule() {
     }
   }, [error, dispatch]);
   }
+
+
+//   //google
+//   useEffect(()=>{
+//     async function google() {
+//       try{
+        
+//         const resp=await getData(`http://127.0.0.1:8000/api/auth/google/redirect`)
+//         console.log(resp)
+//       }catch(error){
+
+// console.log(error)
+//       }
+      
+//     }
+//     google()
+//   },[])
     return(
         <>
          

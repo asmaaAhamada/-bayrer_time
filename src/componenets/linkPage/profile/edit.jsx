@@ -17,23 +17,53 @@ import {
   DialogContentText,
   DialogActions
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import Cookies from 'universal-cookie';
+
+
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import SatelliteIcon from "@mui/icons-material/Satellite";
 import { useDispatch, useSelector } from "react-redux";
 import { setformInfo, update } from "../../../Reducer/user/update";
+import { postDataWithToken } from "../../../Backend/ApiServeces";
+import { BaseUrl, LOGOUT } from "../../../Backend/Api";
 
 
 export default function EdieModal({ open, onClose ,onSuccess}) {
+const [error,setError]=useState(false)
+ const [load,setLoad]=useState(false)
+const navigate = useNavigate();
+ const cookies = new Cookies();
 
- 
-function handleLogout(){
-  alert("hi")
+async function handleLogout(){
+    setLoad(true)
+
+  try{const response = await postDataWithToken(`${BaseUrl}${LOGOUT}`)
+  console.log(response)
+
+    if (response?.message === "تم تسجيل الخروج بنجاح") {
+            cookies.remove("access_token", { path: "/" });
+
+      onClose(); // إغلاق المودال
+      navigate("/login", { replace: true }); // التوجيه لصفحة تسجيل الدخول
+    }
+
+}
+
+  catch{(error)
+    setError("حدث خطا اثناء تسجيل الخروج")
+        setTimeout(() => setError(false), 3000);
+
+  }finally{
+    setLoad(false)
+  }
+  
 }
   
      
   return (
     <>
-      {/* {error && (
+      {error && (
         <Box
           sx={{
             position: "fixed",
@@ -54,7 +84,7 @@ function handleLogout(){
         >
           {error}
         </Box>
-      )} */}
+      )}
 
       <Dialog
           open={open}
@@ -81,7 +111,8 @@ function handleLogout(){
               autoFocus
                onClick={handleLogout}
             >
-              موافق
+              {load ? <CircularProgress/>:"موافق"}
+              
             </Button>
             <Button
               onClick={onClose}

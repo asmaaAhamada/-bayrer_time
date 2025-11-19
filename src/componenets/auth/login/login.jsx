@@ -12,8 +12,8 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseUrl, LOGIN } from '../../../Backend/Api';
-import { useState } from 'react';
-import { postData } from '../../../Backend/ApiServeces';
+import { useEffect, useState } from 'react';
+import { getData, postData } from '../../../Backend/ApiServeces';
 import { setUserData } from '../../../Reducer/user/userInfo';
 
 
@@ -80,6 +80,21 @@ console.log(response.data.user.email)
     }
   }
 
+   //google
+    useEffect(()=>{
+      async function google() {
+        try{
+          
+          const resp=await getData(`http://127.0.0.1:8000/api/auth/google/redirect`)
+          console.log(resp)
+        }catch(error){
+  
+  console.log(error)
+        }
+        
+      }
+      google()
+    },[])
     return(
         <>
              <form onSubmit={handleSubmit}>

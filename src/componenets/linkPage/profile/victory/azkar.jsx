@@ -87,7 +87,7 @@ const weeklyData = statusData?.weekly_statistics
           </VictoryChart>
         )}
 
-        <Typography variant="body2" sx={{ mt: 2 }}>
+        <Typography  variant="body2" sx={{ mt: 2 ,color:'#442604ff',fontSize:'24px'}}>
           النسبة الإجمالية: {statusData?.overall_percentage || "0%"} | الحالة:{" "}
           {statusData?.status || "-"}
         </Typography>
