@@ -12,8 +12,10 @@ import {
 } from "@mui/material";
 import { fetchPrayerTimes } from "../../Reducer/payere/prayerTime";
 import { useDispatch } from "react-redux";
+import Player from "../sounds/Player";
 
 export default function SettingPage() {
+
   const theme = useTheme();
   const [azanEnabled, setAzanEnabled] = React.useState(true);
   const [timeFormat, setTimeFormat] = React.useState("24");
@@ -90,34 +92,7 @@ onChange={(e) => {
         </Select>
       </FormControl>
 
-      {/* وقت التذكير قبل الصلاة */}
-      <FormControl fullWidth>
-        <InputLabel sx={{ color: theme.palette.text.primary }} id="reminder-time-label2">
-          وقت التذكير قبل الصلاة
-        </InputLabel>
-        <Select
-          labelId="reminder-time-label2"
-          value={reminderTime}
-          onChange={(e) => setReminderTime(e.target.value)}
-          sx={{
-            color: theme.palette.text.primary,
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: theme.palette.text.secondary,
-            },
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: theme.palette.primary.main,
-            },
-            "& .MuiSvgIcon-root": {
-              color: theme.palette.text.primary,
-            },
-          }}
-        >
-          <MenuItem value={5}>5 دقائق</MenuItem>
-          <MenuItem value={10}>10 دقائق</MenuItem>
-          <MenuItem value={15}>15 دقائق</MenuItem>
-        </Select>
-      </FormControl>
-
+     
       {/* اختيار صوت الأذان */}
       <FormControl fullWidth>
         <InputLabel sx={{ color: theme.palette.text.primary }} id="azan-sound-label">
@@ -142,21 +117,13 @@ onChange={(e) => {
         >
           <MenuItem value="Makkah">أذان مكة</MenuItem>
           <MenuItem value="Madina">أذان المدينة</MenuItem>
-          <MenuItem value="Other">أصوات أخرى</MenuItem>
+
         </Select>
       </FormControl>
+          <Player enabled={azanEnabled} sound={azanSound} />
 
-      {/* المساعدة / تعليمات */}
-      <Box>
-        <Typography variant="h6" sx={{ color: theme.palette.primary.main }}>
-          مساعدة / تعليمات
-        </Typography>
-        <Typography variant="body2" sx={{ mt: 1, color: theme.palette.text.secondary }}>
-          - كيفية استخدام القبلة  
-          - إعداد الأذكار  
-          - تشغيل الأذان
-        </Typography>
-      </Box>
+     
     </Box>
+    
   );
 }

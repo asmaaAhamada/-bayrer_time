@@ -6,10 +6,7 @@ import Cookies from "universal-cookie";
 import { clearUserData, setUserData } from "../../../Reducer/user/userInfo";
 import APPLoading from "../../loader/APPLoading";
 import { getData } from "../../../Backend/ApiServeces";
-// import { setUserData, clearUserData } from "../../reducer/user";
-// import Loading from "../../wrong/mails/loading";
-// import FORBIDDIN from "./forbiden";
-// import APPLoading from "../../wrong/apploading";
+
 
 const cookies = new Cookies();
 

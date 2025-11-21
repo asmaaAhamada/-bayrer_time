@@ -27,7 +27,7 @@ for (let pair of formData.entries()) {
 }
 
       const response = await getData(`http://127.0.0.1:8000/api/get-city`, {}, true);
-      console.log(response.data)
+      console.log(response)
 return response;
     } catch (error) {
       return rejectWithValue(error?.message);

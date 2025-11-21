@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { Button, LinearProgress, TextField } from '@mui/material';
+import { Alert, Button, LinearProgress, TextField } from '@mui/material';
 import Cookies from "universal-cookie";
 
 import GoogleIcon from '@mui/icons-material/Google';
@@ -191,14 +191,21 @@ console.log(response.data.user.email)
   
       </CardContent>
           
- {loading ? (
+ {error?
+ (
+<Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>):
+ 
+ 
+ loading ? (
   <LinearProgress sx={{ width: '100%', height: 6, borderRadius: 2 }} />
 ) : (
   <Button
     onClick={handleSubmit}
     sx={{
       color: '#110f0dff',
-      width: '90%',
+      width: '80%',
       borderRadius: '5px',
       backgroundColor: 'rgba(134, 96, 21, 0.51)',
     }}
@@ -207,7 +214,10 @@ console.log(response.data.user.email)
   </Button>
 )}
   
- <Button        sx={{color:'#110f0dff', width: '80%', borderRadius: '5px',backgroundColor:'rgba(134, 96, 21, 0.51)' ,color:'black'}}
+ <Button   
+    onClick={() => window.location.href = "/auth/google/redirect"}
+
+ sx={{color:'#110f0dff', width: '80%', borderRadius: '5px',backgroundColor:'rgba(134, 96, 21, 0.51)' ,color:'black'}}
  >  باستخدام غوغل 
  
  <GoogleIcon sx={{color:'#47420eff'}}/>

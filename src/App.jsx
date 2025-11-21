@@ -14,16 +14,17 @@ import ProfilePage from './componenets/linkPage/profile/ProfilePage'
 import WelcomePage from './componenets/welcomPage'
 import ProtectedRoute from './componenets/auth/protected/ProtectedRoute'
 import Hijri_DatePage from './componenets/linkPage/hjgri_date'
+import Login_Google from './Reducer/user/auth/google/redirect'
 export default function App({ toggleMode, mode }){
   return (
    
      <>
     
-    
      
      <Routes>
   <Route path="/" element={<Login />} />
     <Route path="/login" element={<Login />} />
+    <Route path="/auth/google/redirect" element={<Login_Google />} />
 
     <Route path="/sighn" element={<SignUp />} />
 {/* //////////////token//////////////// */}

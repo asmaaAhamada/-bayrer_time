@@ -29,7 +29,7 @@ const navigate = useNavigate();
 
 //eventHandeler
 async function Sighn_Manaule() {
-  const location =Geolocation()
+  
     const resultAction = await dispatch(SighnManaul());
     if (SighnManaul.fulfilled.match(resultAction)) {
   navigate("/app");
@@ -48,21 +48,6 @@ async function Sighn_Manaule() {
   }
 
 
-//   //google
-//   useEffect(()=>{
-//     async function google() {
-//       try{
-        
-//         const resp=await getData(`http://127.0.0.1:8000/api/auth/google/redirect`)
-//         console.log(resp)
-//       }catch(error){
-
-// console.log(error)
-//       }
-      
-//     }
-//     google()
-//   },[])
     return(
         <>
          
@@ -238,7 +223,6 @@ onChange={(e) => dispatch(setformInfo({ password_confirmation: e.target.value })
 )}
 
    
-
  <Button     
    onClick={() => window.location.href = "http://127.0.0.1:8000/api/auth/google/redirect"}
 

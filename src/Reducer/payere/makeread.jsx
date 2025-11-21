@@ -1,18 +1,16 @@
 import { createSlice ,createAsyncThunk  } from '@reduxjs/toolkit'
-import { BaseUrl, MAKEREAD } from '../../Backend/Api';
-import {  patchData, postData, postDataWithToken } from '../../Backend/ApiServeces';
+import { BaseUrl, GETREAD, MAKEREAD } from '../../Backend/Api';
+import {  getData, patchData, postData, postDataWithToken } from '../../Backend/ApiServeces';
 
 export const MAKE_READ = createAsyncThunk(
   'todos/MAKE_READ',
-  async (zekr_category_id, { rejectWithValue }) => {
+  async ( { rejectWithValue }) => {
     try {
 
     
-      const body = {zekr_category_id :zekr_category_id };
+     
 
-      console.log("📤 Sending body:", body);
-
-      const response = await patchData(`${BaseUrl}${MAKEREAD}`,body, {}, true);
+      const response = await getData(`${BaseUrl}${GETREAD}`, {}, true);
       return response;
     } catch (error) {
       return rejectWithValue(error?.message);
@@ -24,7 +22,7 @@ export const counterSlice = createSlice({
     name: 'MAKE_READ',
     initialState: {
        isloading:false,
-       data:{},
+       data:[],
        error:null
     },
     reducers: {

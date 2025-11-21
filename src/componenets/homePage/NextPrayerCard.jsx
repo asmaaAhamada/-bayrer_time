@@ -11,7 +11,11 @@ const prayerNamesArabic = {
   Asr: "العصر",
   Maghrib: "المغرب",
   Isha: "العشاء",
-  
+  Midnight:"قيام الليل",
+  Imsak:"إمساك",
+ 
+ Firstthird: "الوتر",
+  Lastthird: "الوتر",  
 };
 
 export default function NextPrayerCard() {
@@ -19,21 +23,14 @@ export default function NextPrayerCard() {
     const {loading ,error}= useSelector((state)=>state.fetchnnextTimes)
 
   const nextTime= useSelector((state)=>state.fetchnnextTimes)
-// console.log(nextTime?.data?.next_prayer?.name);
+console.log(nextTime?.data);
 
 
-const data= useSelector((state)=>state.convert)
-  console.log(data?.data?.day
-)
-    const {isloading }= useSelector((state)=>state.convert)
 
 
 
   const dispath=useDispatch()
-useEffect(() => {
-  dispath(fetchconvert())
 
-  }, [])
 
 useEffect(() => {
   dispath(fetchnnextTimes())

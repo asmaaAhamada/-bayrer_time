@@ -1,6 +1,29 @@
 import axios from "axios";
 import Cookies from 'universal-cookie';
 
+
+
+export const getDataGoogle = async (url, options = {}) => {
+  try {
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
+      ...options.headers
+    };
+    const response = await axios.get(url, { ...options, headers });
+    return response.data;
+  } catch (error) {
+    console.log("AXIOS ERROR: ", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+
+
+
+
 export const getData = async (url, customHeaders = {}) => {
  const cookies = new Cookies();
   const token = cookies.get("access_token");

@@ -16,8 +16,16 @@ import { fetchAzkarByCategory, fetchCategories } from "../../../Reducer/payere/a
 import { fetchFavorites } from "../../../Reducer/payere/favourite";
 import { patchData } from "../../../Backend/ApiServeces";
 import { BaseUrl, MAKEREAD } from "../../../Backend/Api";
+import { MAKE_READ } from "../../../Reducer/payere/makeread";
 
 export default function AzkarTabs() {
+  const read= useSelector((state)=>state.MAKE_READ)
+  console.log(read.data)
+
+
+
+
+  
   const [readCategories, setReadCategories] = React.useState([]);
   const [readerror, setReaderror] = React.useState(false);
 
@@ -44,6 +52,14 @@ const { favorites } = useSelector((state) => state.favorites);
     }
   }, [categories, value, dispatch]);
 
+
+//   React.useEffect(() => {
+//   if (read?.data?.length) {
+//     const readIds = read.data.map(item => item.zekr_category_id);
+//     setReadCategories(readIds);
+//   }
+// }, [read.data]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
     dispatch(fetchAzkarByCategory(categories[newValue].id));
@@ -67,6 +83,10 @@ const { favorites } = useSelector((state) => state.favorites);
   }
 };
 
+ React.useEffect(() => {
+    dispatch(MAKE_READ());
+
+  }, [dispatch]);
 // ===========make_read==============
 
 
@@ -88,9 +108,9 @@ const { favorites } = useSelector((state) => state.favorites);
           <Typography>{cat.name}</Typography>
 
           {/* 👈 زر العين لكل تب */}
-         <IconButton
+        <IconButton
   size="small"
-    sx={{ color: readCategories.includes(cat.id) ? "#007BFF" : "inherit" }} 
+  sx={{ color: readCategories.includes(cat.id) ? "#007BFF" : "inherit" }}
   onClick={(e) => {
     e.stopPropagation();
     handleCategoryRead(cat.id);
@@ -98,6 +118,7 @@ const { favorites } = useSelector((state) => state.favorites);
 >
   <RemoveRedEyeIcon fontSize="small" />
 </IconButton>
+
 
         </Box>
       }

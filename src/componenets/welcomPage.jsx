@@ -60,10 +60,10 @@ const WelcomePage = () => {
           },
         }}
       >
-        <Typography variant="h6" sx={{ mb: 1 }}>
+        <Typography variant="h3" sx={{ mb: 1 }}>
           أهلاً بك في <strong>تطبيق صلاتي</strong>
         </Typography>
-        <Typography variant="body1" color="text.primary">
+        <Typography sx={{fontSize:'24px'}} variant="body1" color="text.primary">
           احصل على أوقات الصلاة بدقة تامة ودليلك اليومي لقبلتك.
         </Typography>
       </Box>
