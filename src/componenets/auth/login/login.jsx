@@ -215,8 +215,8 @@ console.log(response.data.user.email)
 )}
   
  <Button   
-    onClick={() => window.location.href = "/auth/google/redirect"}
-
+   onClick={() => window.location.href = "http://127.0.0.1:8000/api/auth/google/redirect"}
+ 
  sx={{color:'#110f0dff', width: '80%', borderRadius: '5px',backgroundColor:'rgba(134, 96, 21, 0.51)' ,color:'black'}}
  >  باستخدام غوغل 
  

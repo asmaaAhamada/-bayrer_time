@@ -27,11 +27,11 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 const drawerWidth = 240;
 const navItems = [
       { label: 'الإعدادات', path: '/app/Setting' ,icone:<SettingsIcon/>},
-  ,  {label: 'التنبيهات', path: '/app/notify',icone:<NotificationsActiveIcon/>},
+  ,  {label: 'تسبيح', path: '/app/notify',icone:<PointOfSaleIcon/>},
 
   { label: 'القبلة', path: '/app/Kiss' ,icone:<AutoModeIcon/>},
   {label: 'مواقيتي', path: '/app/Home',icone:<AlarmOnIcon/>},
