@@ -28,10 +28,12 @@ import Button from '@mui/material/Button';
 import { useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 const drawerWidth = 240;
 const navItems = [
       { label: 'الإعدادات', path: '/app/Setting' ,icone:<SettingsIcon/>},
   ,  {label: 'تسبيح', path: '/app/notify',icone:<PointOfSaleIcon/>},
+    { label: ' اذان وادعية', path: '/app/Anashed',icone:<HeadsetMicIcon/> },
 
   { label: 'القبلة', path: '/app/Kiss' ,icone:<AutoModeIcon/>},
   {label: 'مواقيتي', path: '/app/Home',icone:<AlarmOnIcon/>},

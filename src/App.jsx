@@ -15,6 +15,7 @@ import WelcomePage from './componenets/welcomPage'
 import ProtectedRoute from './componenets/auth/protected/ProtectedRoute'
 import Hijri_DatePage from './componenets/linkPage/hjgri_date'
 import Login_Google from './Reducer/user/auth/google/redirect'
+import AudiosPage from './componenets/linkPage/AnashedPage'
 export default function App({ toggleMode, mode }){
   return (
    
@@ -37,6 +38,7 @@ export default function App({ toggleMode, mode }){
           <Route path="/app/Setting" element={<SettingPage />} />
                     <Route path="/app/notify" element={<NotifyPage />} />
                                         <Route path="/app/mousq" element={<Hijri_DatePage />} />
+                                                                                <Route path="/app/Anashed" element={<AudiosPage />} />
 
 
                                                   <Route path="/app/profile" element={<ProfilePage />} />
