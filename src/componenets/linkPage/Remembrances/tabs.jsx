@@ -14,13 +14,13 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import RemembranceCard from "./Remembrances";
 import { fetchAzkarByCategory, fetchCategories } from "../../../Reducer/payere/azkar";
 import { fetchFavorites } from "../../../Reducer/payere/favourite";
-import { patchData } from "../../../Backend/ApiServeces";
-import { BaseUrl, MAKEREAD } from "../../../Backend/Api";
+import { getData, patchData } from "../../../Backend/ApiServeces";
+import { BaseUrl, GETREAD, MAKEREAD } from "../../../Backend/Api";
 import { MAKE_READ } from "../../../Reducer/payere/makeread";
 
 export default function AzkarTabs() {
   const read= useSelector((state)=>state.MAKE_READ)
-  console.log(read.data)
+  // console.log(read.data)
 
 
 
@@ -53,12 +53,6 @@ const { favorites } = useSelector((state) => state.favorites);
   }, [categories, value, dispatch]);
 
 
-//   React.useEffect(() => {
-//   if (read?.data?.length) {
-//     const readIds = read.data.map(item => item.zekr_category_id);
-//     setReadCategories(readIds);
-//   }
-// }, [read.data]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -70,14 +64,17 @@ const { favorites } = useSelector((state) => state.favorites);
     const body = { zekr_category_id: categoryId };
     const res = await patchData(`${BaseUrl}${MAKEREAD}`, body);
 
-    if (res?.success) {
-      setReadCategories((prev) => [...prev, categoryId]);
-    }
+    // if (res?.success) {
+    //   setReadCategories((prev) => [...prev, categoryId]);
+    // }
 
+     if (res?.success) {
+      getRead(); // تحديث من قاعدة البيانات فوراً
+    }
     console.log("Mark Category Read:", res);
   } catch (error) {
     setReaderror("لقد  قمت بقراءة هذا الذكر بالفعل سابقا")
-    console.error("Error make category read:", error);
+    // console.error("Error make category read:", error);
     setTimeout(() => setReaderror(false), 3000);
 
   }
@@ -88,7 +85,23 @@ const { favorites } = useSelector((state) => state.favorites);
 
   }, [dispatch]);
 // ===========make_read==============
+////////getREAD//////////
+React.useEffect(()=>{
+  getRead()
+},[])
 
+async function getRead() {
+  try{
+    const Response= await getData(`${BaseUrl}${GETREAD}`)
+    console.log(Response)
+     const readIds = Response.map(item => item.zekr_category_id);
+    setReadCategories(readIds);
+  }catch(error){
+    console.log(error)
+  }
+  
+}
+/////////////getRead/////////////////
 
   return (
     <Box sx={{ width: "100%" }}>
