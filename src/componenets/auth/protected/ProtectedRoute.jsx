@@ -21,7 +21,7 @@ useEffect(() => {
   const checkSession = async () => {
     setLoading(true);
     try {
-      const data = await getData(`http://127.0.0.1:8000/api/check-session`,
+      const data = await getData(`http://127.0.0.1:5174/api/check-session`,
         {}
       );
       console.log(data)

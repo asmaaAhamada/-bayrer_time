@@ -26,7 +26,7 @@ for (let pair of formData.entries()) {
   console.log(pair[0] + ": " + pair[1]);
 }
 
-      const response = await getData(`http://127.0.0.1:8000/api/get-city`, {}, true);
+      const response = await getData(`http://127.0.0.1:5174/api/get-city`, {}, true);
       console.log(response)
 return response;
     } catch (error) {

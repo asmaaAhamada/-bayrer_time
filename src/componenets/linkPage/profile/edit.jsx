@@ -21,10 +21,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
 
 
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import SatelliteIcon from "@mui/icons-material/Satellite";
-import { useDispatch, useSelector } from "react-redux";
-import { setformInfo, update } from "../../../Reducer/user/update";
+
 import { postDataWithToken } from "../../../Backend/ApiServeces";
 import { BaseUrl, LOGOUT } from "../../../Backend/Api";
 

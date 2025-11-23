@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -13,8 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseUrl, LOGIN } from '../../../Backend/Api';
 import { useEffect, useState } from 'react';
-import { getData, postData } from '../../../Backend/ApiServeces';
-import { setUserData } from '../../../Reducer/user/userInfo';
+import { postData } from '../../../Backend/ApiServeces';
 
 
 export default function Login_page(){
@@ -22,7 +20,6 @@ export default function Login_page(){
   
  
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -51,13 +48,7 @@ console.log(response.data.user.email)
       const token = response.data?.access_token;
 
       if (response.success) {
-  //       dispatch(
-  // setUserData({
-  //   email: response.data.user.email,
-  // })
-
-
-  //       );
+  
 
         const cookies = new Cookies();
         cookies.set("access_token", token, {
@@ -70,7 +61,7 @@ console.log(response.data.user.email)
     }} catch (error) {
       console.log(error)
       setError(error.message || "حدث خطأ أثناء تسجيل الدخول");
-      setOpenAlert(true);
+      setOpenAlert(error.message);
       setTimeout(() => {
         setOpenAlert(false);
         setError("");
@@ -80,21 +71,7 @@ console.log(response.data.user.email)
     }
   }
 
-   //google
-    useEffect(()=>{
-      async function google() {
-        try{
-          
-          const resp=await getData(`http://127.0.0.1:8000/api/auth/google/redirect`)
-          console.log(resp)
-        }catch(error){
   
-  console.log(error)
-        }
-        
-      }
-      google()
-    },[])
     return(
         <>
              <form onSubmit={handleSubmit}>
@@ -191,10 +168,10 @@ console.log(response.data.user.email)
   
       </CardContent>
           
- {error?
+ {openAlert?
  (
 <Alert severity="error" sx={{ mb: 2 }}>
-                {error}
+                {openAlert}
               </Alert>):
  
  
@@ -215,7 +192,7 @@ console.log(response.data.user.email)
 )}
   
  <Button   
-   onClick={() => window.location.href = "http://127.0.0.1:8000/api/auth/google/redirect"}
+   onClick={() => window.location.href = "http://127.0.0.1:5174/auth/google/redirect"}
  
  sx={{color:'#110f0dff', width: '80%', borderRadius: '5px',backgroundColor:'rgba(134, 96, 21, 0.51)' ,color:'black'}}
  >  باستخدام غوغل 

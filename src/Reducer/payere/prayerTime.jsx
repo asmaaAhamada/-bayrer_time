@@ -18,7 +18,7 @@ export const fetchPrayerTimes = createAsyncThunk(
 
     try {
       const res = await getData(
-        `http://127.0.0.1:8000/api/getPrayerTimes?method=${method}`
+        `http://127.0.0.1:5174/api/getPrayerTimes?method=${method}`
       );
       // console.log(res)
       return res;

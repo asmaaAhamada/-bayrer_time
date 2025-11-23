@@ -6,7 +6,7 @@ export const fetchFavorites = createAsyncThunk(
   "favorites/fetchFavorites",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await getData("http://127.0.0.1:8000/api/favorites");
+      const response = await getData("http://127.0.0.1:5174/api/favorites");
       console.log("✅ Favorites from API:", response);
 
       // إذا السيرفر بيرجع كائنات، منحوّلها لـ IDs

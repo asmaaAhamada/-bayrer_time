@@ -16,7 +16,6 @@ import { fetchAzkarByCategory, fetchCategories } from "../../../Reducer/payere/a
 import { fetchFavorites } from "../../../Reducer/payere/favourite";
 import { getData, patchData } from "../../../Backend/ApiServeces";
 import { BaseUrl, GETREAD, MAKEREAD } from "../../../Backend/Api";
-import { MAKE_READ } from "../../../Reducer/payere/makeread";
 
 export default function AzkarTabs() {
   const read= useSelector((state)=>state.MAKE_READ)

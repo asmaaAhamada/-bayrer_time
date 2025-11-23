@@ -7,7 +7,6 @@ import HelloPage from './componenets/homePage/helloPage'
 import SettingPage from './componenets/linkPage/SettingPage'
 import KissPage from './componenets/linkPage/KissPage'
 import Layout from './componenets/homePage/Layout'
-import RemembranceCard from './componenets/linkPage/Remembrances/Remembrances'
 import CustomTabPanel from './componenets/linkPage/Remembrances/tabs'
 import NotifyPage from './componenets/linkPage/notifecation'
 import ProfilePage from './componenets/linkPage/profile/ProfilePage'
@@ -25,7 +24,7 @@ export default function App({ toggleMode, mode }){
      <Routes>
   <Route path="/" element={<Login />} />
     <Route path="/login" element={<Login />} />
-    <Route path="/auth/google/redirect" element={<Login_Google />} />
+    <Route path="/google/callback" element={<Login_Google />} />
 
     <Route path="/sighn" element={<SignUp />} />
 {/* //////////////token//////////////// */}

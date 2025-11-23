@@ -1,9 +1,7 @@
 import { Card, CardContent, Typography, Box, CircularProgress, Alert } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchnnextTimes } from '../../Reducer/payere/get_next_Payer';
-import { useEffect } from 'react';
-import { fetchconvert } from '../../Reducer/date/convert';
-
+import { useEffect, useState } from 'react';
 
 const prayerNamesArabic = {
   Fajr: "الفجر",
@@ -11,35 +9,52 @@ const prayerNamesArabic = {
   Asr: "العصر",
   Maghrib: "المغرب",
   Isha: "العشاء",
-  Midnight:"قيام الليل",
-  Imsak:"إمساك",
- 
- Firstthird: "الوتر",
+  Midnight: "قيام الليل",
+  Imsak: "إمساك",
+  Firstthird: "الوتر",
   Lastthird: "الوتر",  
 };
 
 export default function NextPrayerCard() {
+  const dispatch = useDispatch();
+  const { loading, error, data } = useSelector((state) => state.fetchnnextTimes);
   
-    const {loading ,error}= useSelector((state)=>state.fetchnnextTimes)
+  const [timeLeft, setTimeLeft] = useState("");
 
-  const nextTime= useSelector((state)=>state.fetchnnextTimes)
-console.log(nextTime?.data);
+  useEffect(() => {
+    dispatch(fetchnnextTimes());
+  }, [dispatch]);
 
+  useEffect(() => {
+    if (!data?.next_prayer?.time) return;
 
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const [hours, minutes] = data.next_prayer.time.split(" ")[1].split(":");
+      const nextPrayerDate = new Date();
+      nextPrayerDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
 
+      // إذا الوقت فات، نزود يوم واحد
+      if (nextPrayerDate < now) {
+        nextPrayerDate.setDate(nextPrayerDate.getDate() + 1);
+      }
 
+      const diff = nextPrayerDate - now;
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-  const dispath=useDispatch()
+      setTimeLeft(`${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`);
+    };
 
+    calculateTimeLeft();
+    const interval = setInterval(calculateTimeLeft, 1000);
 
-useEffect(() => {
-  dispath(fetchnnextTimes())
-  }, [])
+    return () => clearInterval(interval);
+  }, [data]);
 
-
-  
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1}}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
       <Card
         sx={{
           minWidth: 280,
@@ -70,31 +85,21 @@ useEffect(() => {
             الصلاة القادمة
           </Typography>
           {loading ? (
-                  <CircularProgress color="primary" />
-                ) : error ? (
-                  <Alert severity="error" sx={{ mb: 2 }}>
-                    {error}
-                  </Alert>
-                ) :( 
-                  <>
-                  <Typography variant="h4" sx={{ mb: 1, fontWeight: 'bold' }}>
-            {prayerNamesArabic[nextTime?.data?.next_prayer?.name]}
-
-          </Typography>
-          <Typography variant="h5">
-  {nextTime?.data?.next_prayer?.time.split(" ")[1].slice(0, 5)?? "45"}
-  
-</Typography>
-
-
-</>
-)}
-        
-  {/* <Typography variant="h6">
-
-12\2\7ه
-    </Typography> */}
-
+            <CircularProgress color="primary" />
+          ) : error ? (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          ) : (
+            <>
+              <Typography variant="h4" sx={{ mb: 1, fontWeight: 'bold' }}>
+                {prayerNamesArabic[data?.next_prayer?.name]}
+              </Typography>
+              <Typography variant="h5" sx={{ mb: 1 }}>
+                {timeLeft || "00:00:00"}
+              </Typography>
+            </>
+          )}
         </CardContent>
       </Card>
 
