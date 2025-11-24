@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BaseUrl, LOGIN } from '../../../Backend/Api';
 import { useEffect, useState } from 'react';
 import { postData } from '../../../Backend/ApiServeces';
+import { requestForToken } from '../../../notifay/forToken';
 
 
 export default function Login_page(){
@@ -24,7 +25,7 @@ export default function Login_page(){
 
   const [form, setForm] = useState({
     email: "",
-    password: "",
+    password: "",deviceToken:""
   });
   const [error, setError] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
@@ -34,12 +35,16 @@ export default function Login_page(){
     setForm({ ...form, [e.target.name]: e.target.value });
   }
   async function handleSubmit(e) {
+    const deviceToken = await requestForToken();
+ 
+       console.log(" deviceToken:", deviceToken);
     e.preventDefault();
     setLoading(true);
 
     const formData = new FormData();
     formData.append("email", form.email);
     formData.append("password", form.password);
+    formData.append("deviceToken", form.deviceToken);
 
     try {
       const response = await postData(`${BaseUrl}${LOGIN}`, formData ,true,true );
@@ -165,7 +170,6 @@ console.log(response.data.user.email)
       label="ادخل كلمة مرور جيدة"
     />
   </Box> 
-  
       </CardContent>
           
  {openAlert?

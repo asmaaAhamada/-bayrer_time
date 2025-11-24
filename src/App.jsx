@@ -8,13 +8,15 @@ import SettingPage from './componenets/linkPage/SettingPage'
 import KissPage from './componenets/linkPage/KissPage'
 import Layout from './componenets/homePage/Layout'
 import CustomTabPanel from './componenets/linkPage/Remembrances/tabs'
-import NotifyPage from './componenets/linkPage/notifecation'
 import ProfilePage from './componenets/linkPage/profile/ProfilePage'
 import WelcomePage from './componenets/welcomPage'
 import ProtectedRoute from './componenets/auth/protected/ProtectedRoute'
 import Hijri_DatePage from './componenets/linkPage/hjgri_date'
 import Login_Google from './Reducer/user/auth/google/redirect'
 import AudiosPage from './componenets/linkPage/AnashedPage'
+import CountGoalPage from './componenets/linkPage/CountGoalPage'
+import NotifactionsPage from './notifay/NotifactionsPage'
+import NotFound from './componenets/auth/protected/notFound'
 export default function App({ toggleMode, mode }){
   return (
    
@@ -22,6 +24,8 @@ export default function App({ toggleMode, mode }){
     
      
      <Routes>
+        <Route path="/*" element={<NotFound />} />
+
   <Route path="/" element={<Login />} />
     <Route path="/login" element={<Login />} />
     <Route path="/google/callback" element={<Login_Google />} />
@@ -35,9 +39,10 @@ export default function App({ toggleMode, mode }){
           <Route path="/app/Remembrances" element={<CustomTabPanel />} />
           <Route path="/app/Kiss" element={<KissPage />} />
           <Route path="/app/Setting" element={<SettingPage />} />
-                    <Route path="/app/notify" element={<NotifyPage />} />
+                    <Route path="/app/count" element={<CountGoalPage />} />
                                         <Route path="/app/mousq" element={<Hijri_DatePage />} />
                                                                                 <Route path="/app/Anashed" element={<AudiosPage />} />
+                                                                                <Route path="/app/notify" element={<NotifactionsPage />} />
 
 
                                                   <Route path="/app/profile" element={<ProfilePage />} />

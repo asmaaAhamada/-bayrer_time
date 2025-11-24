@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getData } from "../../Backend/ApiServeces";
+import { BaseUrl, Favourites } from "../../Backend/Api";
 
 // 🔹 1. دالة لجلب المفضّلات من السيرفر
 export const fetchFavorites = createAsyncThunk(
   "favorites/fetchFavorites",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await getData("http://127.0.0.1:5174/api/favorites");
-      console.log("✅ Favorites from API:", response);
+      const response = await getData(`${BaseUrl}${Favourites}`);
+      // console.log(" Favorites from API:", response);
 
       // إذا السيرفر بيرجع كائنات، منحوّلها لـ IDs
       const data = response.data;

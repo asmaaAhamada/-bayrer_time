@@ -53,7 +53,7 @@ import {
   Flag as FlagIcon,
 } from "@mui/icons-material";
 
-export default function NotifyPage() {
+export default function CountGoalPage() {
   // النوايا
   const [intention, setIntention] = useState("صدقة جارية");
 

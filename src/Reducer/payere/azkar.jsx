@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { BaseUrl, BY_CATEGORY, Categories } from "../../Backend/Api";
 
 // جلب جميع التصنيفات (categories)
 export const fetchCategories = createAsyncThunk(
   "azkar/fetchCategories",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/categories");
+      const res = await axios.get(`${BaseUrl}${Categories}`);
       return res.data.data; // حسب شكل الـ response
     } catch (err) {
       return rejectWithValue(err.message);
@@ -20,7 +21,7 @@ export const fetchAzkarByCategory = createAsyncThunk(
   async (categoryId, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `http://127.0.0.1:8000/api/by-category?category_id=${categoryId}`
+        `${BaseUrl}${BY_CATEGORY}?category_id=${categoryId}`
       );
       return res.data.data.azkar;
     } catch (err) {

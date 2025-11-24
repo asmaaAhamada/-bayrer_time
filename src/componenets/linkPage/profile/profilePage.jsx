@@ -111,19 +111,7 @@ useEffect(() => {
       <Button onClick={()=>{setShowEdit(true)}}
  variant="contained">  تسجيل الخروج</Button>
 
-        {/* <Button
-          variant="contained"
-          color="error"
-          startIcon={<LogoutIcon />}
-          sx={{
-            mt: 3,
-            borderRadius: 3,
-            px: 3,
-            fontWeight: "bold",
-          }}
-        >
-          تسجيل الخروج
-        </Button> */}
+      
 
 
         

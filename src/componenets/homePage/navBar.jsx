@@ -31,8 +31,10 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 const drawerWidth = 240;
 const navItems = [
+        { label: 'التنبيهات', path: '/app/notify' ,icone:<NotificationsActiveIcon/>},
+
       { label: 'الإعدادات', path: '/app/Setting' ,icone:<SettingsIcon/>},
-  ,  {label: 'تسبيح', path: '/app/notify',icone:<PointOfSaleIcon/>},
+  ,  {label: 'تسبيح', path: '/app/count',icone:<PointOfSaleIcon/>},
     { label: ' اذان وادعية', path: '/app/Anashed',icone:<HeadsetMicIcon/> },
 
   { label: 'القبلة', path: '/app/Kiss' ,icone:<AutoModeIcon/>},

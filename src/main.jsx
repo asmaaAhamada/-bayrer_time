@@ -10,28 +10,30 @@ import store from './store/store'
 function Root() {
   const [mode, setMode] = useState('light')
 
-  const theme = useMemo(() =>
+ const theme = useMemo(() =>
   createTheme({
     palette: {
       mode,
       primary: {
-        main: mode === 'light' ? '#6B5B2A' : '#442604ff', // لون Navbar
-        contrastText: mode === 'light' ? '#ffffff' : '#ffffff', // لون النص على الـ Navbar
+        main: mode === 'light' ? '#8B6F47' : '#C8A97E',
+        contrastText: '#ffffff',
       },
       background: {
-        default: mode === 'light' ? '#c7beb3ff' : '#ffffff', // body background
-        paper: mode === 'light' ? '#f5f5f5' : '#744106ff',
+        default: mode === 'light' ? '#F3EFE7' : '#121212', // لون الـ Body
+        paper: mode === 'light' ? '#ffffff' : '#1E1E1E',  // البطاقات – Cards
       },
       text: {
-        primary: mode === 'light' ? '#131210ff' : '#442604ff',
-        secondary: mode === 'light' ? '#4A3E1B' : '#cccccc',
+        primary: mode === 'light' ? '#2D2D2D' : '#EDEDED',
+        secondary: mode === 'light' ? '#5A4F3E' : '#B8B8B8',
       },
     },
     typography: {
       fontFamily: 'CairoBlack, Arial, sans-serif',
     },
-  }), [mode]
+  }),
+  [mode]
 )
+
 
 
   const toggleMode = () => setMode((prev) => (prev === 'light' ? 'dark' : 'light'))

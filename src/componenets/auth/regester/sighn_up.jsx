@@ -20,7 +20,8 @@ export default function Singhn_Up(){
   const user = useSelector((state) => state.sighn_normal.user);
     console.log(user)
   //state
-  const {name,email,password,password_confirmation} =useSelector((state)=> state.sighn_normal)
+  const {deviceToken,name,email,password,password_confirmation} =useSelector((state)=> state.sighn_normal)
+  console.log(deviceToken)
   const { error } = useSelector((state) => state.sighn_normal);
   const { isLoading } = useSelector((state) => state.sighn_normal);
 

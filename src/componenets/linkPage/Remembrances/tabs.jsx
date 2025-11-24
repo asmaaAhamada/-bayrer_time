@@ -16,6 +16,7 @@ import { fetchAzkarByCategory, fetchCategories } from "../../../Reducer/payere/a
 import { fetchFavorites } from "../../../Reducer/payere/favourite";
 import { getData, patchData } from "../../../Backend/ApiServeces";
 import { BaseUrl, GETREAD, MAKEREAD } from "../../../Backend/Api";
+import { MAKE_READ } from "../../../Reducer/payere/makeread";
 
 export default function AzkarTabs() {
   const read= useSelector((state)=>state.MAKE_READ)
@@ -40,7 +41,7 @@ const { favorites } = useSelector((state) => state.favorites);
   // تحميل التصنيفات عند أول تشغيل
   React.useEffect(() => {
     dispatch(fetchCategories());
-  dispatch(fetchFavorites()); // 👈 يستدعي الفيفوريت الجديدة
+  dispatch(fetchFavorites()); //  يستدعي الفيفوريت الجديدة
 
   }, [dispatch]);
 
@@ -63,9 +64,7 @@ const { favorites } = useSelector((state) => state.favorites);
     const body = { zekr_category_id: categoryId };
     const res = await patchData(`${BaseUrl}${MAKEREAD}`, body);
 
-    // if (res?.success) {
-    //   setReadCategories((prev) => [...prev, categoryId]);
-    // }
+    
 
      if (res?.success) {
       getRead(); // تحديث من قاعدة البيانات فوراً
@@ -100,7 +99,7 @@ async function getRead() {
   }
   
 }
-/////////////getRead/////////////////
+/////////////===========getRead=====================/////////////////
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -119,7 +118,7 @@ async function getRead() {
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography>{cat.name}</Typography>
 
-          {/* 👈 زر العين لكل تب */}
+          {/*  زر العين لكل تب */}
         <IconButton
   size="small"
   sx={{ color: readCategories.includes(cat.id) ? "#007BFF" : "inherit" }}
@@ -176,8 +175,8 @@ async function getRead() {
 
               text={item.content}
               reward={`تكرار: ${item.repetition}`}
-                      likedInitially={favorites.includes(item.id)} // 👈 هنا نمرّر حالة الإعجاب المبدئية
-  isCategoryRead={readCategories.includes(categories[value]?.id)} // 👈 هنا
+                      likedInitially={favorites.includes(item.id)} //  هنا نمرّر حالة الإعجاب المبدئية
+  isCategoryRead={readCategories.includes(categories[value]?.id)} //  هنا
 
             />
           ))

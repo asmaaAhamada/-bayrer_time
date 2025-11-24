@@ -2,14 +2,18 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { postData } from '../../../Backend/ApiServeces';
 import { BaseUrl } from '../../../Backend/Api';
 import Cookies from 'universal-cookie';
-import { setUserData } from '../userInfo';
+import { requestForToken } from '../../../notifay/forToken';
+
+
+
+
 
 const initialState = {
   formInfo: {
     name: '',
     email: '',
     password: '',
-    password_confirmation: '',
+    password_confirmation: '',deviceToken:''
   },
   isLoading: false,
   error: null,
@@ -22,8 +26,11 @@ export const SighnManaul = createAsyncThunk(
     try {
       const state = getState();
       const { name, email, password, password_confirmation } = state.sighn_normal.formInfo;
+      //ديفايس توكن
+ const deviceToken = await requestForToken();
 
-      // 📍 احصل على الموقع الحالي
+      console.log(" deviceToken:", deviceToken);
+      //  احصل على الموقع الحالي
       const coords = await new Promise((resolve) => {
         if (!navigator.geolocation) return resolve({ latitude: 0, longitude: 0 });
         navigator.geolocation.getCurrentPosition(
@@ -43,10 +50,10 @@ export const SighnManaul = createAsyncThunk(
       formData.append('password_confirmation', password_confirmation);
       formData.append('latitude', latitude);
       formData.append('longitude', longitude);
-
-      // 📡 أرسل الطلب
+formData.append('device_token', deviceToken);
+      //  أرسل الطلب
       const response = await postData(`${BaseUrl}register`, formData, {}, true);
-      console.log("📦 register response:", response);
+      console.log(" register response:", response);
 
       // 🪙 خزّن التوكن
       const cookies = new Cookies();
@@ -54,18 +61,7 @@ export const SighnManaul = createAsyncThunk(
         path: '/',
         maxAge: 86400, // يوم واحد
       });
-  // if (response.user) {
-  //         dispatch(
-  // setUserData({
-
-  //     email: response.user.email,
-  // }))
-  //     }
-
-
-
-
-      // ✅ أرجع بيانات المستخدم
+  
 return response.user;
     } catch (error) {
       return rejectWithValue(error?.message || 'فشل التسجيل');
@@ -93,7 +89,7 @@ const formSlice = createSlice({
       })
       .addCase(SighnManaul.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload; // 🟢 تم تخزين اليوزر هنا
+        state.user = action.payload; //  تم تخزين اليوزر هنا
       })
       .addCase(SighnManaul.rejected, (state, action) => {
         state.isLoading = false;
